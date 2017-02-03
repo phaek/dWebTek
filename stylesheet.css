@@ -1,0 +1,268 @@
+body > div {
+    width: 100%;
+    background-color: #ffffff;
+    display: block;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-underline-color: white;
+}
+
+#logo {
+    display: inline-block;
+    margin-left: -45px;
+    margin-right: 0;
+    margin-top: -10px;
+    width: 10%;
+}
+
+#logo img {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin: 40px;
+    opacity: .75;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 100%;
+}
+
+#logo img:hover {
+    opacity: 1;
+}
+
+#header {
+    height: 100px;
+    margin-top: -25px;
+    background-color: #ffffff;
+    width: 75%;
+    min-width: 800px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.headerelement {
+    width: 33%;
+    height: 33%;
+    margin-top: -65px;
+    display: inline-block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#searchfield {
+    width: 100%;
+    min-width: 200px;
+    height: 40px;
+    border: 2px solid #dadada;
+    font-family: "Segoe MDL2 Assets", 'Segoe UI', Sans-Serif, serif;
+    font-size: 20px;
+    color: grey;
+    padding-top: -20px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    z-index: 1;
+    float: left;
+    margin-left: 75%;
+    margin-top: -55px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+#searchbar {
+    width: 33%;
+    margin-left: 0;
+}
+
+#searchfield:focus {
+    outline: none;
+    box-shadow: 0 6px 10px 0 #9ecaed;
+    z-index: 1;
+}
+
+#userbtn {
+    font-family: "Segoe MDL2 Assets", 'Segoe UI', Sans-Serif, serif;
+    font-weight: bold;
+    background-color: #333333;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 7em;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: -100px;
+    margin-left: -125%;
+}
+
+#user {
+    display: inline-block;
+    width: 33%;
+    float: right;
+    margin-left: 25%;
+}
+
+.dropdown-content {
+    display: none;
+    position: inherit;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-left: -121px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-align: right;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+#user:hover .dropdown-content {
+    display: block;
+}
+
+#userbtn:hover {
+    background-color: black;
+}
+
+#menuelements {
+    height: 55px;
+    background-color: #333333;
+    font-family: 'Segoe UI', Sans-Serif, serif;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    width: 75%;
+    min-width: 800px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+#menuelements a {
+    color: white;
+}
+
+#menuelements ul li {
+    display: inline;
+    font-size: 20px;
+    border-right: 0.001em solid #ffffff;
+    padding: 0 20px;
+}
+
+#menuelements ul li:nth-last-child(1) {
+    border-right: none;
+}
+
+#user {
+    width: 50px;
+    height: 50px;
+    margin-top: 75px;
+    font-weight: bold;
+    margin-left: 20%;
+    margin-right: auto;
+    font-family: "Segoe MDL2 Assets", 'Segoe UI', Sans-Serif, serif;
+}
+
+#menuelements ul {
+    padding: 2px 0 0;
+}
+
+#jumbotronelements {
+    height: auto;
+    color: black;
+    width: 75%;
+    min-width: 540px; /*(width/2) og stadig læsbart */
+    max-width: 1200px;
+    margin: 1% auto;
+    text-align: center;
+}
+
+#jumbotron_p {
+}
+
+#produktDiv {
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#produktTabel {
+    font-family: "Segoe UI Light", sans-serif, Helvetica;
+    width: 100%;
+    text-align: center;
+}
+
+#produktTabel td {
+    height: 400px;
+    width: 50%;
+}
+
+#produktTabel img {
+    display: block;
+    margin: auto;
+
+    width: 100%;
+    height: 50%;
+}
+
+.prodNavn {
+    color: #333333;
+    font-family: 'Segoe UI Light', "Arial", serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.prodNavn:hover {
+    text-decoration: underline;
+    text-underline-color: black;
+}
+
+.prodPris {
+    color: orange;
+    font-family: 'Segoe UI Light', "Arial", serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#footer {
+    position: relative;
+    bottom: -20px;
+}
+
+#footerelements {
+    height: 5%;
+    background-color: #333333;
+    width: 75%;
+    min-width: 800px;
+    max-width: 1200px;
+    padding-top: -10px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#footer p {
+    padding-top: 10px;
+    font-size: 15px;
+    font-family: 'Segoe UI Light', "Arial", serif;
+    text-align: center;
+    font-weight: bold;
+}

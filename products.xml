@@ -1,0 +1,43 @@
+<products>
+    <product>
+        <img>img/prod1.jpg</img>
+        <pris>6.949</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Nebula 4200 Lite Stabilizer</prodNavn>
+    </product>
+
+    <product>
+        <img>img/prod2.jpg</img>
+        <pris>11.999</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Came Argo Stabilizer</prodNavn>
+    </product>
+
+    <product>
+        <img>img/prod3.jpg</img>
+        <pris>3.499</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Steadycam Vest, single arm</prodNavn>
+    </product>
+
+    <product>
+        <img>img/prod4.jpg</img>
+        <pris>3.149</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Voose Gunner/DFocus Bundle V2</prodNavn>
+    </product>
+
+    <product>
+        <img>img/prod5.jpg</img>
+        <pris>3.799</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Redheat Kit, inkl. dimmer</prodNavn>
+    </product>
+
+    <product>
+        <img>img/prod6.jpg</img>
+        <pris>1.889</pris>
+        <prodInfo></prodInfo>
+        <prodNavn>Musthid M501H 5" LCD Monitor (Pro)</prodNavn>
+    </product>
+</products>
