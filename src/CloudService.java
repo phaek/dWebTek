@@ -49,7 +49,7 @@ class CloudService {
 
         try {
 
-            Element root = new Element("modifyItem", "http://www.cs.au.dk/dWebTek/2014");
+            Element root = new Element("modifyItem", NS);
 
             document = new Document(root);
 
