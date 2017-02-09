@@ -1,6 +1,4 @@
-import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import org.jdom2.*;
-import org.jdom2.filter.Filter;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaderJDOMFactory;
 import org.jdom2.input.sax.XMLReaderXSDFactory;
@@ -15,7 +13,6 @@ class CloudService {
 
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private static final String SHOP_KEY = "BA2F22BE812D783D22B8EA5E";
-    private Element root;
 
 
     OperationResult<String> modifyItem(int itemID, String itemName, int itemPrice, String itemURL, String itemDescription) throws IOException, JDOMException {
@@ -51,11 +48,11 @@ class CloudService {
 
         try {
 
-            root = new Element("modifyItem", "http://www.cs.au.dk/dWebTek/2014");
+            Element root = new Element("modifyItem", "http://www.cs.au.dk/dWebTek/2014");
 
             document = new Document(root);
 
-            root.addContent(new Element("shopKey").setText("shopkeyblabla123"));
+            root.addContent(new Element("shopKey").setText(SHOP_KEY));
             root.addContent(new Element("itemID").setText(""+itemID));
             root.addContent(new Element("itemName").setText(itemName));
             root.addContent(new Element("itemPrice").setText(""+itemPrice));
@@ -82,7 +79,7 @@ class CloudService {
 
 
     private OperationResult<Element> convertItemDescription(String content) throws JDOMException, IOException {
-        return new OperationResult<>(true, "", new SAXBuilder().build(new StringReader("<document>" + content + "</document>")).detachRootElement());
+        return new OperationResult<>(true, "", new SAXBuilder().build(new StringReader("<document>" + content + "</document>")).getRootElement().clone());
     }
 
     /**
