@@ -201,7 +201,7 @@
     <complexType name="document" mixed="true">
         <choice  minOccurs="0" maxOccurs="unbounded">
             <element ref="w:bold"/>
-            <element ref="w:italic"/>
+            <element ref="w:italics"/>
             <element ref="w:list"/>
         </choice>
     </complexType>
@@ -210,14 +210,14 @@
     <element name="bold" type="w:bold"/>
     <complexType name="bold" mixed="true">
         <choice  minOccurs="0" maxOccurs="unbounded">
-            <element ref="w:italic"/>
+            <element ref="w:italics"/>
         </choice>
     </complexType>
 
 
-    <!-- Samme fremgangsmåde med w:italic.. -->
-    <element name="italic" type="w:italic"/>
-    <complexType name="italic" mixed="true">
+    <!-- Samme fremgangsmåde med w:italics.. -->
+    <element name="italics" type="w:italics"/>
+    <complexType name="italics" mixed="true">
         <choice  minOccurs="0" maxOccurs="unbounded">
             <element ref="w:bold"/>
         </choice>
@@ -233,7 +233,7 @@
                 <complexType mixed="true">
                     <choice minOccurs="0" maxOccurs="unbounded">
                         <element ref="w:bold"/>
-                        <element ref="w:italic"/>
+                        <element ref="w:italics"/>
                         <element ref="w:list"/>
                     </choice>
                 </complexType>
@@ -246,7 +246,7 @@
         <choice>
             <element ref="w:document"/>
             <!-- Brugte *alt* for lang tid på at opdage, at itemDescription skulle parses som 'document'-type
-            under w:-namespace, og ikke selv håndtere bold/italic/list.. fuck...-->
+            under w:-namespace, og ikke selv håndtere bold/italics/list.. fuck...-->
         </choice>
     </complexType>
 
