@@ -19,6 +19,7 @@ class CloudService {
 
         // itemDescription is a string, possible with XML content. We have to transform it.
         OperationResult<Element> itemDescRes = convertItemDescription(itemDescription);
+        String info = "";
 
 
         // HINT: You can get the XML as a string from a Document by XMLOutputter
@@ -66,15 +67,11 @@ class CloudService {
             new XMLOutputter(Format.getPrettyFormat()).output(document, System.out);
 
 
-        } catch (IOException ignored) {
+        } catch (Exception e) {
+            info = e.toString();
         }
 
-
-        boolean valid = validate(document).isSuccess();
-        String info = "";
-        String result = "";
-
-        return new OperationResult<>(valid, info, result);
+        return new OperationResult<>(validate(document).isSuccess(), info, "");
     }
 
 
@@ -90,15 +87,14 @@ class CloudService {
 
         //Jeg tænker at der må være en snedigere måde end det her pis...
 
-        Namespace ns = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
         for (Element c : child.getChildren()) {
-            c.setNamespace(ns);
+            c.setNamespace(NS);
             for (Element c2 : c.getChildren()) {
-                c2.setNamespace(ns);
+                c2.setNamespace(NS);
                 for (Element c3 : c2.getChildren()) {
-                    c3.setNamespace(ns);
+                    c3.setNamespace(NS);
                     for (Element c4 : c3.getChildren()) {
-                        c4.setNamespace(ns);
+                        c4.setNamespace(NS);
                     }
                 }
             }
