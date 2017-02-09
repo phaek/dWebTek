@@ -231,7 +231,7 @@
         <choice minOccurs="0" maxOccurs="unbounded">
             <element name="item">
                 <complexType mixed="true">
-                    <choice minOccurs="0" maxOccurs="unbounded">
+                    <choice minOccurs="0" maxOccurs="unbounded"> <!-- Choice gir kun mulighed for at vælge ÉN, derfor jeg fik fejl da jeg testede OG at du får fejl både ved bold og italics OG den samme fejl jeg sidder fast ved :-( kan dog ikke se hvordan man får muligheden for at vælge mere end én, at alle skal med-->
                         <element ref="w:bold"/>
                         <element ref="w:italics"/>
                         <element ref="w:list"/>
