@@ -1,106 +1,198 @@
-import org.jdom2.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaderJDOMFactory;
 import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 class CloudService {
 
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
-    private static final String SHOP_KEY = "BA2F22BE812D783D22B8EA5E";
+    private static final String key = "BA2F22BE812D783D22B8EA5E";
+    private static String baseURL = "http://webtek.cs.au.dk/cloud/";
+
+    void listItems() throws IOException, JDOMException {
+        URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
+        Document doc = null;
+        int counter = 0;
+
+        HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        int respCode = connection.getResponseCode();
+        String respMsg = connection.getResponseMessage();
+
+        connection.disconnect(); //For at være flink ved server og lokale resurser
 
 
-    OperationResult<String> modifyItem(int itemID, String itemName, int itemPrice, String itemURL, String itemDescription) throws IOException, JDOMException {
-
-        // itemDescription is a string, possible with XML content. We have to transform it.
-        OperationResult<Element> itemDescRes = convertItemDescription(itemDescription);
-        String info = "";
-
-
-        // HINT: You can get the XML as a string from a Document by XMLOutputter
-        /*SAXBuilder builder = new SAXBuilder();
-        Document document = null;
-        try {
-            document = builder.build(new File("mod1.xml"));
-        } catch (JDOMException | IOException e) {
-            e.printStackTrace();
+        if (respCode == 200) {
+            try {
+                doc = new SAXBuilder().build(new BufferedReader(new InputStreamReader(reqURL.openStream())));
+            } catch (JDOMException | IOException e) {
+                System.out.println("Svar fra " + reqURL + " er malformed! Prøv igen med korrekt kommando/ID\n(Teknisk fejlmeddelelse: " + e + ")");
+            }
+        } else {
+            System.out.println("Serveren afviste vores forespørgesel :(\n(" + respCode + "): " + respMsg);
         }
 
-        assert document != null;
-        itemID = Integer.parseInt(document.getRootElement().getDescendants(new org.jdom2.filter.ElementFilter("itemID")).next().getValue());
-        itemName = document.getRootElement().getDescendants(new org.jdom2.filter.ElementFilter("itemName")).next().getValue();
-        itemPrice = Integer.parseInt(document.getRootElement().getDescendants(new org.jdom2.filter.ElementFilter("itemPrice")).next().getValue());
-        itemURL = document.getRootElement().getDescendants(new org.jdom2.filter.ElementFilter("itemURL")).next().getValue();
-        itemDescription = document.getRootElement().getDescendants(new org.jdom2.filter.ElementFilter("itemDescription")).next().getValue();
+
+        assert doc != null;
+        for (Element e : doc.getRootElement().getChildren()) {
+            counter++;
+            System.out.println(""
+            + "itemID=" + e.getDescendants(new ElementFilter("itemID")).next().getValue()
+            + "; itemName=" + e.getDescendants(new ElementFilter("itemName")).next().getValue()
+            + "; itemURL=" + e.getDescendants(new ElementFilter("itemURL")).next().getValue()
+            + "; itemPrice=" + e.getDescendants(new ElementFilter("itemPrice")).next().getValue()
+            + "; itemStock=" + e.getDescendants(new ElementFilter("itemStock")).next().getValue()
+            + "; itemDescription=" + e.getDescendants(new ElementFilter("itemDescription")).next().getValue());
+
+        }
+        System.out.println("Totale antal produkter: " + counter);
+    }
+
+    /**
+     * Delete item ID
+     * @param id ItemID
+     */
+    OperationResult<String> deleteItem(int id) throws IOException {
+
+        String info = "";
+
+        Element deleteItem = new Element("deleteItem", NS);
+        deleteItem.addContent(new Element("shopKey", NS).setText(key));
+        deleteItem.addContent(new Element("itemID", NS).setText(""+ id));
+
+        Document doc = new Document(deleteItem);
+
+        try {
+            if (validate(doc).isSuccess()) {
+                postit(baseURL + "deleteItem", doc);
+                return new OperationResult<>(validate(doc).isSuccess(), info, "Success");
+            }
+        }
+        catch(Exception e) {
+            info = e.toString();
+        }
+
+        return new OperationResult<>(validate(doc).isSuccess(), info, "Fail");
+    }
 
 
-        System.out.println("ID:\t" + itemID + "\nName:\t" + itemName + "\nPrice:\t" + itemPrice + "\nURL:\t" + itemURL + "\nDesc:\t" + itemDescription + "\n");
-        */
+    /**
+     * Create items
+     */
+    OperationResult<Integer> createItem(String itemName) throws IOException, JDOMException {
 
-        //Document doc = SAXBuilder.build("www.example.com/fil.xml");
+        Element createItem = new Element("createItem", NS);
+        createItem.addContent(new Element("itemName", NS).setText(itemName));
+        createItem.addContent(new Element("shopKey", NS).setText(key));
+        Document doc = new Document(createItem);
 
+        if(!validate(doc).isSuccess())
+            return new OperationResult<>(validate(doc).isSuccess(), validate(doc).getMessage(), 0);
 
+        return new OperationResult<>(validate(doc).isSuccess(), "", Integer.parseInt(new SAXBuilder().build(new StringReader(postit(baseURL+"createItem", doc))).getRootElement().getValue()));
+    }
+
+    /**
+     * Modify items
+     */
+    OperationResult<String> modifyItem(int itemID, String itemName, int itemPrice, String itemURL, String itemDescription) throws IOException, JDOMException {
+
+        OperationResult<Element> itemDescRes = convertItemDescription(itemDescription);
+        String info = "";
         Document document = null;
 
         try {
-
             Element root = new Element("modifyItem", NS);
-
-            document = new Document(root);
-
-            root.addContent(new Element("shopKey").setText(SHOP_KEY));
-            root.addContent(new Element("itemID").setText(""+itemID));
+            root.addContent(new Element("shopKey").setText(key));
+            root.addContent(new Element("itemID").setText("" + itemID));
             root.addContent(new Element("itemName").setText(itemName));
-            root.addContent(new Element("itemPrice").setText(""+itemPrice));
+            root.addContent(new Element("itemPrice").setText("" + itemPrice));
             root.addContent(new Element("itemURL").setText(itemURL));
             Element itemDesc = new Element("itemDescription");
             itemDesc.addContent(itemDescRes.getResult());
             root.addContent(itemDesc);
 
             setNamespace(root);
-
-            new XMLOutputter(Format.getPrettyFormat()).output(document, System.out);
-
+            document = new Document(root);
 
         } catch (Exception e) {
             info = e.toString();
         }
 
-        return new OperationResult<>(validate(document).isSuccess(), info, "");
+        if (validate(document).isSuccess())
+            postit(baseURL + "modifyItem", document);
+
+        return new OperationResult<>(validate(document).isSuccess(), info, new XMLOutputter().outputString(document));
     }
 
+    /**
+     * 'POST' requests via HTTP
+     */
+    private String postit(String reqURL, Document doc) throws IOException {
+        HttpURLConnection httpCon = (HttpURLConnection) new URL(reqURL).openConnection();
+        httpCon.setRequestMethod("POST");
+        httpCon.setDoInput(true);
+        httpCon.setDoOutput(true);
+        httpCon.setRequestProperty("Content-Type", "text/xml; charset=UTF-8");
 
+        new XMLOutputter(Format.getPrettyFormat()).output(doc, httpCon.getOutputStream());
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        System.out.println("Server response: (" + httpCon.getResponseCode() + ") " + httpCon.getResponseMessage());
+
+
+        return response.toString();
+    }
+
+    /**
+     * Konverterer itemDescriptin til noget mere HTML-venligt
+     */
     private OperationResult<Element> convertItemDescription(String content) throws JDOMException, IOException {
         return new OperationResult<>(true, "", new SAXBuilder().build(new StringReader("<document>" + content + "</document>")).getRootElement().clone());
     }
 
+
     /**
-     * Sets the namespace on the element - what about the children??
-     * @param child the xml-element to have set the namespace
+     * Sets namespace for elements
      */
     private void setNamespace(Element child) {
+        child.setNamespace(NS);
 
-        //Jeg tænker at der må være en snedigere måde end det her pis...
-
-        for (Element c : child.getChildren()) {
-            c.setNamespace(NS);
-            for (Element c2 : c.getChildren()) {
-                c2.setNamespace(NS);
-                for (Element c3 : c2.getChildren()) {
-                    c3.setNamespace(NS);
-                    for (Element c4 : c3.getChildren()) {
-                        c4.setNamespace(NS);
-                    }
-                }
-            }
+        if(child.getChildren().isEmpty())
+            return;
+        else {
+            for(Element e:child.getChildren())
+                setNamespace(e);
         }
     }
 
+    /**
+     * Validates generated XML documents against cloud.xsd
+     */
     private OperationResult<Object> validate(Document doc) {
 
         URL url = getClass().getClassLoader().getResource("cloud.xsd");
@@ -124,5 +216,4 @@ class CloudService {
 
         return OperationResult.Success(true);
     }
-
 }

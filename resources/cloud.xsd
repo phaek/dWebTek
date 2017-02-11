@@ -172,7 +172,7 @@
 	
 	<simpleType name="simpleText"> 
 		<restriction base="string">
-			<pattern value="(\p{L}|\p{N}|_|-|\.)*"></pattern>
+			<pattern value="(\p{L}|\p{N}|_|-|\.)*"/>
 		</restriction> 
 	</simpleType> 
 	<element name="customerName" type="w:customerName"/> 
