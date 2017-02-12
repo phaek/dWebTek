@@ -1,43 +1,82 @@
-<products>
-    <product>
-        <img>img/prod1.jpg</img>
-        <pris>6.949</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Nebula 4200 Lite Stabilizer</prodNavn>
-    </product>
-
-    <product>
-        <img>img/prod2.jpg</img>
-        <pris>11.999</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Came Argo Stabilizer</prodNavn>
-    </product>
-
-    <product>
-        <img>img/prod3.jpg</img>
-        <pris>3.499</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Steadycam Vest, single arm</prodNavn>
-    </product>
-
-    <product>
-        <img>img/prod4.jpg</img>
-        <pris>3.149</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Voose Gunner/DFocus Bundle V2</prodNavn>
-    </product>
-
-    <product>
-        <img>img/prod5.jpg</img>
-        <pris>3.799</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Redheat Kit, inkl. dimmer</prodNavn>
-    </product>
-
-    <product>
-        <img>img/prod6.jpg</img>
-        <pris>1.889</pris>
-        <prodInfo></prodInfo>
-        <prodNavn>Musthid M501H 5" LCD Monitor (Pro)</prodNavn>
-    </product>
-</products>
+<w:items xmlns:w="http://www.cs.au.dk/dWebTek/2014">
+    <w:item>
+        <w:itemID>51116</w:itemID>
+        <w:itemName>Nebula 4200 Lite Stabilizer</w:itemName>
+        <w:itemURL>http://i.imgur.com/HSlRLx8.jpg</w:itemURL>
+        <w:itemPrice>6949</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51135</w:itemID>
+        <w:itemName>Came Argo Stabilizer</w:itemName>
+        <w:itemURL>http://i.imgur.com/Xf9pE7j.jpg</w:itemURL>
+        <w:itemPrice>11999</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51137</w:itemID>
+        <w:itemName>Steadycam Vest, single arm</w:itemName>
+        <w:itemURL>http://i.imgur.com/sfJUuVJ.jpg</w:itemURL>
+        <w:itemPrice>3499</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51139</w:itemID>
+        <w:itemName>Voose Gunner/DFocus Bundle V2</w:itemName>
+        <w:itemURL>http://i.imgur.com/qVORAfC.jpg</w:itemURL>
+        <w:itemPrice>3149</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51140</w:itemID>
+        <w:itemName>Redheat Kit, inkl. dimmer</w:itemName>
+        <w:itemURL>http://i.imgur.com/jnaKSAU.jpg</w:itemURL>
+        <w:itemPrice>3799</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51141</w:itemID>
+        <w:itemName>Musthid M501H 5-tommer LCD monitor</w:itemName>
+        <w:itemURL>http://i.imgur.com/NyqrMPb.jpg</w:itemURL>
+        <w:itemPrice>1889</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">Ingen beskrivelse endnu..</w:document>
+        </w:itemDescription>
+    </w:item>
+    <w:item>
+        <w:itemID>51144</w:itemID>
+        <w:itemName>Morten</w:itemName>
+        <w:itemURL>
+            http://i3.kym-cdn.com/photos/images/facebook/000/062/553/attachment.php
+        </w:itemURL>
+        <w:itemPrice>499</w:itemPrice>
+        <w:itemStock>0</w:itemStock>
+        <w:itemDescription>
+            <w:document xmlns:w="http://www.cs.au.dk/dWebTek/2014">
+                <w:list>
+                    <w:item>Tosset med skulderkager</w:item>
+                    <w:item>Langt, fedtet hår</w:item>
+                    <w:item>
+                        Ikke så glad for lister over ting han ikke er så glad for..
+                    </w:item>
+                </w:list>
+            </w:document>
+        </w:itemDescription>
+    </w:item>
+</w:items>
