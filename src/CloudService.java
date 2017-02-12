@@ -23,6 +23,9 @@ class CloudService {
     private static final String key = "BA2F22BE812D783D22B8EA5E";
     private static String baseURL = "http://webtek.cs.au.dk/cloud/";
 
+    /**
+     * Creates a GET request for an entire list of products from 'shopID' and returns... nothing. Yet.
+     */
     void listItems() throws IOException, JDOMException {
         URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
         Document doc = null;
@@ -93,7 +96,7 @@ class CloudService {
 
 
     /**
-     * Create items
+     * Create items based on POST request to the cloud
      */
     OperationResult<Integer> createItem(String itemName) throws IOException, JDOMException {
 
@@ -109,7 +112,7 @@ class CloudService {
     }
 
     /**
-     * Modify items
+     * Modify items based on POST request to the cloud
      */
     OperationResult<String> modifyItem(int itemID, String itemName, int itemPrice, String itemURL, String itemDescription) throws IOException, JDOMException {
 
@@ -169,7 +172,7 @@ class CloudService {
     }
 
     /**
-     * Konverterer itemDescriptin til noget mere HTML-venligt
+     * Converts itemDescription into a more intelligible composition that supports HTML formatting
      */
     private OperationResult<Element> convertItemDescription(String content) throws JDOMException, IOException {
         return new OperationResult<>(true, "", new SAXBuilder().build(new StringReader("<document>" + content + "</document>")).getRootElement().clone());
@@ -177,7 +180,7 @@ class CloudService {
 
 
     /**
-     * Sets namespace for elements
+     * Sets namespace for all children, courtesy of Morten
      */
     private void setNamespace(Element child) {
         child.setNamespace(NS);
