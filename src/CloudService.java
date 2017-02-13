@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 class CloudService {
@@ -22,6 +23,7 @@ class CloudService {
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private static final String key = "BA2F22BE812D783D22B8EA5E";
     private static String baseURL = "http://webtek.cs.au.dk/cloud/";
+    private ArrayList<Item> prodList = new ArrayList<>();
 
     /**
      * Creates a GET request for an entire list of products from 'shopID' and returns... nothing. Yet.
@@ -29,8 +31,6 @@ class CloudService {
     void listItems() throws IOException, JDOMException {
         URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
         Document doc = null;
-        int counter = 0;
-
         HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
@@ -54,17 +54,17 @@ class CloudService {
 
         assert doc != null;
         for (Element e : doc.getRootElement().getChildren()) {
-            counter++;
-            System.out.println(""
-            + "itemID=" + e.getDescendants(new ElementFilter("itemID")).next().getValue()
-            + "; itemName=" + e.getDescendants(new ElementFilter("itemName")).next().getValue()
-            + "; itemURL=" + e.getDescendants(new ElementFilter("itemURL")).next().getValue()
-            + "; itemPrice=" + e.getDescendants(new ElementFilter("itemPrice")).next().getValue()
-            + "; itemStock=" + e.getDescendants(new ElementFilter("itemStock")).next().getValue()
-            + "; itemDescription=" + e.getDescendants(new ElementFilter("itemDescription")).next().getValue());
-
+            prodList.add(new Item(Integer.parseInt(e.getDescendants(new ElementFilter("itemID")).next().getValue()),
+                    e.getDescendants(new ElementFilter("itemName")).next().getValue(),
+                    e.getDescendants(new ElementFilter("itemURL")).next().getValue(),
+                    Integer.parseInt(e.getDescendants(new ElementFilter("itemPrice")).next().getValue()),
+                    Integer.parseInt(e.getDescendants(new ElementFilter("itemStock")).next().getValue()),
+                    e.getDescendants(new ElementFilter("itemDescription")).next().getValue()));
         }
-        System.out.println("Totale antal produkter: " + counter);
+
+        for (Item item : prodList) {
+            System.out.println(item.getItemID() + ": " + item.getItemName());
+        }
     }
 
     /**

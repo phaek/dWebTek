@@ -1,10 +1,12 @@
 import org.jdom2.JDOMException;
+
 import java.io.IOException;
 
 
 public class Week3Runner {
 
     private static CloudService service = new CloudService();
+
 
     public static void main(String[] args) throws IOException, JDOMException {
 
