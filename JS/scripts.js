@@ -29,7 +29,10 @@ function searchBarSearch() {
         }
         $('#produktTabel').empty();
         loadProducts(products);
-        document.getElementById('jumbotron_p').innerText = "Antal produkter af denne søgning: " + products.length;
+        if (products.length !== allProducts.length)
+            document.getElementById('jumbotron_p').innerText = "Antal produkter af denne søgning: " + products.length;
+        else
+            document.getElementById('jumbotron_p').innerText = "";
     }
 }
 
@@ -42,7 +45,7 @@ function searchBarSearch() {
 function getRequest(url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.withCredentials = false;
-    xmlhttp.open("GET", url, false);
+    xmlhttp.open("get", url, false);
     xmlhttp.setRequestHeader('Content-Type', 'text/xml');
     xmlhttp.send();
     return xmlhttp.responseXML;
