@@ -41,7 +41,9 @@ function searchBarSearch() {
  */
 function getRequest(url) {
     var xmlhttp = new XMLHttpRequest();
+    xmlhttp.withCredentials = false;
     xmlhttp.open("GET", url, false);
+    xmlhttp.setRequestHeader('Content-Type', 'text/xml');
     xmlhttp.send();
     return xmlhttp.responseXML;
 }
