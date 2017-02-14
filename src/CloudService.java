@@ -22,13 +22,13 @@ class CloudService {
 
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private static final String key = "BA2F22BE812D783D22B8EA5E";
-    private static String baseURL = "http://webtek.cs.au.dk/cloud/";
-    private ArrayList<Item> prodList = new ArrayList<>();
+    private static final String baseURL = "http://webtek.cs.au.dk/cloud/";
+    private final ArrayList<Item> prodList = new ArrayList<>();
 
     /**
      * Creates a GET request for an entire list of products from 'shopID' and returns... nothing. Yet.
      */
-    void listItems() throws IOException, JDOMException {
+    void listItems() throws IOException {
         URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
         Document doc = null;
         HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
@@ -71,7 +71,7 @@ class CloudService {
      * Delete item ID
      * @param id ItemID
      */
-    OperationResult<String> deleteItem(int id) throws IOException {
+    OperationResult<String> deleteItem(int id) {
 
         String info = "";
 
