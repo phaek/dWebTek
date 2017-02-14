@@ -52,6 +52,7 @@ class CloudService {
         }
 
 
+        //For every <item> in <items>, create Item object and add it to ArrayList<Item> prodList
         assert doc != null;
         for (Element e : doc.getRootElement().getChildren()) {
             prodList.add(new Item(Integer.parseInt(e.getDescendants(new ElementFilter("itemID")).next().getValue()),
@@ -62,8 +63,11 @@ class CloudService {
                     e.getDescendants(new ElementFilter("itemDescription")).next().getValue()));
         }
 
+
+        /* Kun til afleveringsopgave; sikkert at slette efterfølgende */
+        System.out.println("Ét produkt pr linje som opgavebeskrivelsen lyder på:");
         for (Item item : prodList) {
-            System.out.println(item.getItemID() + ": " + item.getItemName());
+            System.out.println("ID=" + item.getItemID() + ", name=" + item.getItemName() + ", URL=" + "udeladt" + ", price=" + item.getItemPrice() + ", stock=" + item.getItemStock() + ", desc=udeladt");
         }
     }
 
@@ -72,7 +76,6 @@ class CloudService {
      * @param id ItemID
      */
     OperationResult<String> deleteItem(int id) {
-
         String info = "";
 
         Element deleteItem = new Element("deleteItem", NS);
@@ -84,14 +87,14 @@ class CloudService {
         try {
             if (validate(doc).isSuccess()) {
                 postit(baseURL + "deleteItem", doc);
-                return new OperationResult<>(validate(doc).isSuccess(), info, "Success");
+                return new OperationResult<>(true, info, "Success");
             }
         }
         catch(Exception e) {
             info = e.toString();
         }
 
-        return new OperationResult<>(validate(doc).isSuccess(), info, "Fail");
+        return new OperationResult<>(false, info, "Fail");
     }
 
 
@@ -106,9 +109,9 @@ class CloudService {
         Document doc = new Document(createItem);
 
         if(!validate(doc).isSuccess())
-            return new OperationResult<>(validate(doc).isSuccess(), validate(doc).getMessage(), 0);
+            return new OperationResult<>(false, validate(doc).getMessage(), 0);
 
-        return new OperationResult<>(validate(doc).isSuccess(), "", Integer.parseInt(new SAXBuilder().build(new StringReader(postit(baseURL+"createItem", doc))).getRootElement().getValue()));
+        return new OperationResult<>(true, "", Integer.parseInt(new SAXBuilder().build(new StringReader(postit(baseURL+"createItem", doc))).getRootElement().getValue()));
     }
 
     /**

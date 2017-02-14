@@ -85,8 +85,8 @@ function loadProducts() {
  */
 function onLoad() {
     for (var i = 0; i < (xmlDoc.getElementsByTagName('items')[0].childNodes.length)-(xmlDoc.getElementsByTagName('items')[0].childNodes.length/1.75); i++) {
-        map.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue)
-        map2.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue)
+        map.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue);
+        map2.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue);
     }
     for (var i2 = 0; i2++ < map.size; map.next()) {
         products.push(map.hash(map.key()).substring(7));
@@ -218,14 +218,6 @@ Map.prototype.remove = function(key) {
 
         delete this[hash];
     }
-
-    return this;
-};
-
-// only works if linked
-Map.prototype.removeAll = function() {
-    while(this.size)
-        this.remove(this.key());
 
     return this;
 };
