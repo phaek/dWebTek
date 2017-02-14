@@ -1,16 +1,13 @@
-/**
- * Created by Rasmus Dalsgaard on 2/12/17.
- */
 public class Item {
 
-    private int itemID;
-    private String itemName;
-    private String itemURL;
-    private int itemPrice;
-    private int itemStock;
-    private String itemDescription;
+    private final int itemID;
+    private final String itemName;
+    private final String itemURL;
+    private final int itemPrice;
+    private final int itemStock;
+    private final String itemDescription;
 
-    public Item (int itemID, String itemName, String itemURL, int itemPrice, int itemStock, String itemDescription) {
+    Item(int itemID, String itemName, String itemURL, int itemPrice, int itemStock, String itemDescription) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemURL = itemURL;
@@ -19,11 +16,11 @@ public class Item {
         this.itemDescription = itemDescription;
     }
 
-    public int getItemID() {
+    int getItemID() {
         return itemID;
     }
 
-    public String getItemName() {
+    String getItemName() {
         return itemName;
     }
 
