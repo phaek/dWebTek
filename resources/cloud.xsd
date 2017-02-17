@@ -211,6 +211,7 @@
     <complexType name="bold" mixed="true">
         <choice  minOccurs="0" maxOccurs="unbounded">
             <element ref="w:italics"/>
+			<element ref="w:bold"/>
         </choice>
     </complexType>
 
@@ -220,6 +221,7 @@
     <complexType name="italics" mixed="true">
         <choice  minOccurs="0" maxOccurs="unbounded">
             <element ref="w:bold"/>
+			<element ref="w:italics"/>
         </choice>
     </complexType>
 
@@ -229,21 +231,13 @@
     <element name="list" type="w:list"/>
     <complexType name="list">
         <choice minOccurs="0" maxOccurs="unbounded">
-            <element name="item">
-                <complexType mixed="true">
-                    <choice minOccurs="0" maxOccurs="unbounded"> <!-- Choice gir kun mulighed for at vælge ÉN, derfor jeg fik fejl da jeg testede OG at du får fejl både ved bold og italics OG den samme fejl jeg sidder fast ved :-( kan dog ikke se hvordan man får muligheden for at vælge mere end én, at alle skal med-->
-                        <element ref="w:bold"/>
-                        <element ref="w:italics"/>
-                        <element ref="w:list"/>
-                    </choice>
-                </complexType>
-            </element>
+            <element name="item" type="w:document"/>
         </choice>
     </complexType>
 
     <element name="itemDescription" type="w:itemDescription"/>
     <complexType name="itemDescription">
-        <choice>
+        <choice minOccurs="1" maxOccurs="unbounded">
             <element ref="w:document"/>
             <!-- Brugte *alt* for lang tid på at opdage, at itemDescription skulle parses som 'document'-type
             under w:-namespace, og ikke selv håndtere bold/italics/list.. fuck...-->
