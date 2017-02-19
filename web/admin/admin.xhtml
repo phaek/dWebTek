@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:w="http://www.cs.au.dk/dWebTek/2014">
+
+<head>
+    <title>Administratorinterface</title>
+</head>
+<body>
+<h:form>
+    <c:if test="#{userBean.isadmin or userBean.isOauth}">
+        <h3>Du er logget ind som #{userBean.username} (root user)</h3>
+    </c:if>
+    <c:if test="#{userBean.loggedin}">
+        <h3>Du er logget ind som #{userBean.username} (normal user)</h3>
+    </c:if>
+</h:form>
+
+<h:form>
+    <h:dataTable var="item" value="#{shopBean.prodList}">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            <c:if test="#{userBean.isadmin}">
+                ✎<h:link value="#{item.itemID}" outcome="modifyItem.jsf"><f:param name="id" value="#{item.itemID}" /></h:link>
+            </c:if>
+            <c:if test="#{userBean.loggedin}">
+                #{item.itemID}
+            </c:if>
+        </h:column>
+        <c:if test="#{userBean.isadmin}">
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{item.itemName}
+            </h:column>
+        </c:if>
+        <h:column>
+            <f:facet name="header">URL</f:facet>
+            #{item.itemURL}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Price</f:facet>
+            #{item.itemPrice}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Stock</f:facet>
+            #{item.itemStock}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Desc</f:facet>
+            <w:xml2html value="#{item.itemDescription}" escape="false" />
+        </h:column>
+    </h:dataTable>
+</h:form>
+<br/><br/><br/>
+<c:if test="#{userBean.isadmin or userBean.isOauth}">
+    <h:form>
+        <h:commandButton value="Opret produkt" action="#{CreateBean.createItem}">
+            <f:param name="id" value="#{item.itemID}" />
+        </h:commandButton>
+    </h:form>
+</c:if>
+
+<h:form>
+    <h:commandButton value="Log ud" action="#{userBean.logout}" />
+</h:form>
+</body>
+</html>

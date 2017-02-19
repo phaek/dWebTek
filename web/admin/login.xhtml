@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h2>Brugernavn og adgangskode</h2>
+<h:form>
+    <input type="text" name="username" title="" value="" />
+    <input type="password" name="password" value=""  title=""/>
+    <h:commandButton action="#{userBean.login}" value="Login" />
+</h:form>
+
+<br /><br /><br />
+<h2>AU-login (OAuth2)</h2>
+<h:form>
+    <h:commandButton value="Login med OAuth2"  action="#{oAuth.sendTo}" />
+    <f:metadata>
+        <f:viewParam name="code" value="#{oAuth.code}" />
+        <f:viewParam name="username" value="#{oAuth.username}" />
+    </f:metadata>
+</h:form>
+<br />
+<h:form>
+    <h:commandButton value="Get TOKEN" action="#{oAuth.tokenize}" />
+</h:form>
+</body>
+</html>

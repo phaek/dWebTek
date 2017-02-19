@@ -1,11 +1,13 @@
 public class Item {
 
-    private final int itemID;
-    private final String itemName;
-    private final String itemURL;
-    private final int itemPrice;
-    private final int itemStock;
-    private final String itemDescription;
+
+    private int itemID;
+    private String itemName;
+    private String itemURL;
+    private String itemDescription;
+    private int itemPrice;
+    private int itemStock;
+    private Item item;
 
     Item(int itemID, String itemName, String itemURL, int itemPrice, int itemStock, String itemDescription) {
         this.itemID = itemID;
@@ -16,25 +18,49 @@ public class Item {
         this.itemDescription = itemDescription;
     }
 
-    int getItemID() {
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
+    }
+
+    public int getItemID() {
         return itemID;
     }
 
-    String getItemName() {
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getItemName() {
         return itemName;
+    }
+
+    public void setItemURL(String itemURL) {
+        this.itemURL = itemURL;
     }
 
     public String getItemURL() {
         return itemURL;
     }
 
+    public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
+
+    public String getItemDescription() {
+        return itemDescription;
+    }
+
+    public void setItemPrice(int itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
     public int getItemPrice() {
         return itemPrice;
     }
 
-    public int getItemStock() {
-        return itemStock;
+    public void setItemStock(int itemStock) {
+        this.itemStock = itemStock;
     }
 
-    public String getItemDescription() { return itemDescription; }
+    public int getItemStock() { return itemStock; }
+
+    public Item getItem() { return item; }
 }

@@ -52,6 +52,7 @@ function getRequest(url) {
 }
 
 
+
 /**
  * Loads the entire product list from getRequest() into index.html
  */
@@ -261,4 +262,6 @@ Map.prototype.key = function() {
 
 Map.prototype.value = function() {
     return this.current.value;
-};
+};/**
+ * Created by phaek on 2/16/17.
+ */
