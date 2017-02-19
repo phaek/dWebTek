@@ -50,6 +50,22 @@ public class Controller {
 
 
 
+    public String adjustItemStock(Item item) throws IOException {
+        String result = null;
+        
+        Element root = new Element("adjustItemStock", NS);
+        root.addContent(new Element("shopKey", NS).setText(key));
+        root.addContent(new Element("itemID", NS).setText(String.valueOf(item.getItemID())));
+        root.addContent(new Element("adjustment", NS).setText(String.valueOf(item.getItemStock()+1)));
+        Document doc = new Document(root);
+
+        if (new CloudService().validate(doc).isSuccess()) {
+            result = new Poster().postit(baseURL+"/adjustItemStock", doc);
+        }
+        return result;
+    }
+
+
     /**
      * Modify items based on POST request to the cloud
      */
