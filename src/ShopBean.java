@@ -28,17 +28,6 @@ public class ShopBean {
     }
 
 
-    public String modifyItem() {
-        try {
-            new Controller().modifyItem(item.getItemID(), item.getItemName(), item.getItemPrice(), item.getItemURL(), item.getItemDescription());
-            rebuildProdList();
-        } catch (Exception e) {
-            message = e.getMessage();
-        }
-
-        return "admin";
-    }
-
     public ArrayList<Item> getProdList() {
         return prodList;
     }
