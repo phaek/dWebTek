@@ -48,11 +48,6 @@ public class OAuth {
 
         if (httpConnection.getResponseCode() == 200) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true);
-            try {
-                new UserBean().login();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
             return "admin";
         }
 
