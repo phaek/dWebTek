@@ -16,16 +16,8 @@
 
 <br /><br /><br />
 <h2>AU-login (OAuth2)</h2>
-<h:form>
-    <h:commandButton value="Login med OAuth2"  action="#{oAuth.sendTo}" />
-    <f:metadata>
-        <f:viewParam name="code" value="#{oAuth.code}" />
-        <f:viewParam name="username" value="#{oAuth.username}" />
-    </f:metadata>
-</h:form>
+<a href="https://services.brics.dk/java/dovs-auth/authorize?client_id=dovs&amp;redirect_uri=http://localhost:1337/oauthCallBack&amp;response_type=code">Log ind med OAuth</a>
+
 <br />
-<h:form>
-    <h:commandButton value="Get TOKEN" action="#{oAuth.tokenize}" />
-</h:form>
 </body>
 </html>

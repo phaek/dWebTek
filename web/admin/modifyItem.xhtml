@@ -17,11 +17,12 @@
 
 
     <c:if test="#{userBean.isadmin}">
-    <h:form rendered="true">
+    <h:form>
         ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton style="margin-left: 10px; border-width: 0; :hover background-color: red;" value="delete" action="#{ModifyBean.delete}"/> <br/>
         Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
         URL: <h:inputText size="30" label="itemurl" value="#{ModifyBean.item.itemURL}"/> <br/>
         Price: <h:inputText size="30" label="itemprice" value="#{ModifyBean.item.itemPrice}"/> <br/><br/>
+        Stock: <h:inputText size="30" label="itemstock" value="#{ModifyBean.item.itemStock}"/> <br/><br/>
         Description:<br/>
         <h:inputTextarea
                 label="itemdescription"

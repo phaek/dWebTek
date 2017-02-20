@@ -10,6 +10,14 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>FromOAuth</servlet-name>
+        <servlet-class>Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FromOAuth</servlet-name>
+        <url-pattern>/oauthCallBack</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
