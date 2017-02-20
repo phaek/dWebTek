@@ -39,9 +39,11 @@ public class UserBean{
         username = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("username");
         password = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("password");
 
+        //Logger ind som OAuth...
         try {
-            if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isoauth").toString().contains(""))
+            if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isoauth").toString().contains("true")) {
                 setIsOauth(true);
+            }
             else
                 setIsOauth(false);
         } catch (Exception ignored) {
@@ -55,6 +57,8 @@ public class UserBean{
             System.out.println("Jeg er OAuth!");
 
             return "admin";
+
+            //Logger ind som admin...
         } else if (md5crypt(username).equals(md5crypt(admin[0])) && md5crypt(password).equals(md5crypt(admin[1]))) {
             isadmin = true;
             setLoggedin(false);
@@ -62,12 +66,14 @@ public class UserBean{
 
             System.out.println("Jeg er admin!");
             return "admin";
-        } else {
+        } else if (!username.isEmpty() && !password.isEmpty()){
 
+            //Ingen bruger :(
             setIsOauth(false);
             setIsadmin(false);
             setLoggedin(true);
-            System.out.println("Jeg har ingen bruger :(");
+            System.out.println("Logget ind som almindelig bruger");
+            return "admin";
         }
 
         return "login";
