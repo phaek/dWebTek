@@ -38,17 +38,12 @@ public class UserBean{
 
         username = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("username");
         password = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("password");
+        try{if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isoauth").toString().contains("true"))
+            isOauth = true;} catch (Exception ignored) {};
+
+
 
         //Logger ind som OAuth...
-        try {
-            if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isoauth").toString().contains("true")) {
-                setIsOauth(true);
-            }
-            else
-                setIsOauth(false);
-        } catch (Exception ignored) {
-        }
-
         if (isOauth) {
             isOauth = true;
             isadmin = true;
@@ -83,6 +78,7 @@ public class UserBean{
     public String logout() {
         setLoggedin(false);
         setIsadmin(false);
+        setIsOauth(false);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isadmin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", null);
