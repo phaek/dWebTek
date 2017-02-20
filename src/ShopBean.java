@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ShopBean {
     private ArrayList<Item> prodList = null;
     private Item item = null;
+    private String createItem;
     private String message;
 
     public ShopBean() {
@@ -31,7 +32,7 @@ public class ShopBean {
     public ArrayList<Item> getProdList() {
         return prodList;
     }
-
+    public void setItem(Item i){ item = i; }
     public Item getItem() {
         return item;
     }

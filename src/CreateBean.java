@@ -13,29 +13,28 @@ public class CreateBean {
     transient private ShopBean shopBean;
 
 
-    public String getItemName(){
-        return itemName;
-    }
-
-    public void setItemName(String s){
-        itemName = s;
-    }
-
     public String createItem(){
         try {
             newID = new Controller().createItem(getItemName()).getResult();
             shopBean.rebuildProdList();
-        } catch (Exception e) {
-            return "WRONG";
+        } catch (Exception ignored) {
         }
         return "modifyItem.jsf?faces-redirect=true&id=" + newID;
     }
 
+    public String getItemName(){
+        return itemName;
+    }
+    public void setItemName(String s){
+        itemName = s;
+    }
     public String getItemID(){
         return itemID;
     }
-
     public void setItemID (String s){
         itemID = s;
     }
+    public ShopBean getShopBean() { return shopBean; }
+    public void setShopBean(ShopBean sb) { this.shopBean = sb; }
+
 }

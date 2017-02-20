@@ -27,5 +27,6 @@
     <orderEntry type="library" exported="" name="Mojarra-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="lib" level="project" />
     <orderEntry type="library" name="javax.faces-2.2.1" level="project" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6 (2)" level="project" />
   </component>
 </module>

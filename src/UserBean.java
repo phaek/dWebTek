@@ -1,6 +1,9 @@
+import com.sun.faces.context.SessionMap;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +21,7 @@ public class UserBean{
     private String username = "";
     private boolean isadmin;
     private boolean loggedin;
+
 
 
     public UserBean() throws NoSuchAlgorithmException {
@@ -38,10 +42,13 @@ public class UserBean{
 
         username = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("username");
         password = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("password");
+
+
         try{if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isoauth").toString().contains("true"))
             isOauth = true;} catch (Exception ignored) {};
 
 
+        System.out.println("UserBean: username|password = " + getUsername() + "|" + getPassword());
 
         //Logger ind som OAuth...
         if (isOauth) {
@@ -119,4 +126,6 @@ public class UserBean{
     public boolean isLoggedin() {
         return loggedin;
     }
+
+    public String getPassword() {return password; }
 }
