@@ -43,6 +43,7 @@ public class UserBean{
          if (md5crypt(username).equals(md5crypt(admin[0])) && md5crypt(password).equals(md5crypt(admin[1]))) {
             isadmin = true;
             setLoggedin(false);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true); //Et lille hack; swap ud når admin-sessions er implementeret
 
             System.out.println("Jeg er admin!");
             return "admin";
