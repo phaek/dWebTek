@@ -12,7 +12,7 @@ public class Filter implements javax.servlet.Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        if (Boolean.TRUE.equals(((HttpServletRequest) request).getSession().getAttribute("isoauth")) || Boolean.TRUE.equals(((HttpServletRequest) request).getSession().getAttribute("isadmin")))
+        if (Boolean.TRUE.equals(((HttpServletRequest) request).getSession().getAttribute("isoauth")))
             filterChain.doFilter(request, response);
         else {
             if (httpServletRequest.getRequestURI().contains("/oauthCallBack") || httpServletRequest.getRequestURI().contains("admin/login.jsf"))
