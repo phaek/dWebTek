@@ -45,9 +45,8 @@ public class Item {
     public void setItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
 
     public String getItemDescription() { return itemDescription; }
-    public String getItemDescription2() {
-        return new xml2html().presenter(itemDescription).trim();
-    }
+    public String getItemDescription2() { return new xml2html().presenter(itemDescription).trim(); }
+    public void setItemDescription2(String ida) { this.itemDescription = ida; }
 
     public void setItemPrice(int itemPrice) {
         this.itemPrice = itemPrice;
