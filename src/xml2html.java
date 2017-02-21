@@ -1,6 +1,5 @@
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.faces.component.FacesComponent;
@@ -8,7 +7,6 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 
 @FacesComponent("xml2html")
