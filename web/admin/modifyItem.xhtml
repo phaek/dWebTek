@@ -16,7 +16,6 @@
     </f:metadata>
 
 
-    <c:if test="#{userBean.isadmin}">
     <h:form>
         ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton style="margin-left: 10px; border-width: 0; :hover background-color: red;" value="delete" action="#{ModifyBean.delete}"/> <br/>
         Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
@@ -27,17 +26,11 @@
         <h:inputTextarea
                 label="itemdescription"
                 cols="100" rows="10"
-                value="#{ModifyBean.item.itemDescription}"/>
+                value="#{ModifyBean.item.itemDescription2}"/>
         <br /><br />
         <h:commandButton value="SAVE" action="#{ModifyBean.modify}"/>
         <br /> <br />
     </h:form>
-    </c:if>
-
-    <c:if test="#{userBean.loggedin}">
-        This isn't the page you're looking for...
-    </c:if>
-
 
 
 </body>
