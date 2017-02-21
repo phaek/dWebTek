@@ -11,7 +11,7 @@
 </head>
 <body>
 <h:form>
-    <c:if test="#{userBean.isadmin or userBean.isOauth}">
+    <c:if test="#{userBean.isadmin}">
         <h3>Du er logget ind som #{userBean.username} (root user)</h3>
     </c:if>
     <c:if test="#{userBean.loggedin}">
@@ -23,19 +23,13 @@
     <h:dataTable var="item" value="#{shopBean.prodList}">
         <h:column>
             <f:facet name="header">ID</f:facet>
-            <c:if test="#{userBean.isadmin}">
                 ✎<h:link value="#{item.itemID}" outcome="modifyItem.jsf"><f:param name="id" value="#{item.itemID}" /></h:link>
-            </c:if>
-            <c:if test="#{userBean.loggedin}">
                 #{item.itemID}
-            </c:if>
         </h:column>
-        <c:if test="#{userBean.isadmin}">
             <h:column>
                 <f:facet name="header">Name</f:facet>
                 #{item.itemName}
             </h:column>
-        </c:if>
         <h:column>
             <f:facet name="header">URL</f:facet>
             #{item.itemURL}
@@ -50,18 +44,16 @@
         </h:column>
         <h:column>
             <f:facet name="header">Desc</f:facet>
-            <w:xml2html value="#{item.itemDescription}" escape="false" />
+            <w:xml2html value="#{item.itemDescription}" />
         </h:column>
     </h:dataTable>
 </h:form>
 <br/><br/><br/>
-<c:if test="#{userBean.isadmin or userBean.isOauth}">
     <h:form>
         <h:commandButton value="Opret produkt" action="#{CreateBean.createItem}">
             <f:param name="id" value="#{item.itemID}" />
         </h:commandButton>
     </h:form>
-</c:if>
 
 <h:form>
     <h:commandButton value="Log ud" action="#{userBean.logout}" />
