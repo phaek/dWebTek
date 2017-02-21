@@ -1,9 +1,6 @@
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +21,8 @@ public class Servlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Class-navn: " + this.getClass().getName());
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpSession httpSession = httpServletRequest.getSession();
+        HttpServletRequest httpServletRequest = request;
+        HttpSession session = httpServletRequest.getSession();
 
         code = request.getParameter("code");
         username = request.getParameter("username");
@@ -48,8 +45,8 @@ public class Servlet extends HttpServlet {
         if (connection.getResponseCode() == 200) {
             System.out.println("Response code: " + connection.getResponseCode());
             request.getSession().setAttribute("isoauth", true);
-            request.getSession().setAttribute("nick", username);
-            response.sendRedirect("admin/admin.jsf");
+            request.getSession().setAttribute("username", username);
+            response.sendRedirect("admin/oauth.jsf");
         } else {
             String responseMessage = connection.getResponseMessage();
         }
