@@ -37,7 +37,7 @@ public class Controller {
         }
 
         try {
-            returnShopID = Integer.parseInt(new SAXBuilder().build(new StringReader(new Poster().postit(baseURL+"createItem", doc))).getRootElement().getValue());
+            returnShopID = Integer.parseInt(new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL+"createItem", doc))).getRootElement().getValue());
         } catch (JDOMException | IOException e) {
             info = e.toString();
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class Controller {
         Document doc = new Document(root);
 
         if (new CloudService().validate(doc).isSuccess()) {
-            result = new Poster().postit(baseURL+"/adjustItemStock", doc);
+            result = new CloudService().postit(baseURL+"/adjustItemStock", doc);
         }
         return result;
     }
@@ -95,7 +95,7 @@ public class Controller {
         }
 
         if (service.validate(document).isSuccess())
-            new Poster().postit(baseURL + "modifyItem", document);
+            new CloudService().postit(baseURL + "modifyItem", document);
 
 
         return new OperationResult<>(service.validate(document).isSuccess(), info, new XMLOutputter().outputString(document));
@@ -117,7 +117,7 @@ public class Controller {
         Document doc = new Document(deleteItem);
 
         try {
-            new Poster().postit(baseURL + "deleteItem", doc);
+            new CloudService().postit(baseURL + "deleteItem", doc);
             return new OperationResult<>(true, info, "Success");
         }
         catch(Exception e) {
