@@ -22,7 +22,7 @@ public class Filter implements javax.servlet.Filter {
                 if (httpServletRequest.getRequestURI().contains("/oauthCallBack") || httpServletRequest.getRequestURI().contains("admin/login.jsf"))
                     filterChain.doFilter(request, response);
                 else {
-                    httpServletResponse.sendRedirect(((HttpServletRequest) request).getContextPath() + "login.jsf");
+                    httpServletResponse.sendRedirect(((HttpServletRequest) request).getContextPath() + "admin/login.jsf");
                 }
             }
         } catch (Exception e) {
