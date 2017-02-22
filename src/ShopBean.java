@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class ShopBean {
     private ArrayList<Item> prodList = null;
     private Item item = null;
-    private String createItem;
     private String message;
 
     public ShopBean() {
