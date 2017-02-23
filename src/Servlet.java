@@ -15,7 +15,7 @@ import java.net.URL;
 public class Servlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String body = "grant_type=authorization_code" + "&code=" + request.getParameter("code") + "&client_id=dovs" + "&client_secret=hello" + "&redirect_uri=http://localhost:1337/oauthCallBack";
+        String body = "grant_type=authorization_code" + "&code=" + request.getParameter("code") + "&client_id=dovs" + "&client_secret=hello" + "&redirect_uri=http://webtek.cs.au.dk/projects/au554760/dev/oauthCallBack";
 
         //Post stuff
         String reqUrl = "https://services.brics.dk/java/dovs-auth/token";
