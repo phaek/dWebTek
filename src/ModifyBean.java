@@ -8,15 +8,10 @@ import javax.faces.bean.SessionScoped;
 public class ModifyBean {
     private String itemID;
     private Item item;
+    private String fejl = "";
 
     @ManagedProperty("#{shopBean}")
     transient private ShopBean shopBean;
-
-    public ShopBean getShopBean() {return shopBean; }
-
-    public void setShopBean(ShopBean sb){shopBean = sb; }
-
-
 
     public String modify(){
 
@@ -26,7 +21,8 @@ public class ModifyBean {
             shopBean.rebuildProdList();
             System.out.println("Modify er godkendt");
         } catch (Exception e) {
-            return "Ugyldig XML";
+            fejl = "Ugyldig XML. Husk at lukke alle åbne tags. Gyldige tags er <bold></bold>, <italics></italics>, <list></list> og <item></item>";
+            return "WRONG"; //Håndter forkert XML
         }
         return "admin";
     }
@@ -59,6 +55,9 @@ public class ModifyBean {
     public Item getItem(){
         return item;
     }
-
     public void setItem (Item i) {item = i; }
+    public ShopBean getShopBean() {return shopBean; }
+    public void setShopBean(ShopBean sb){shopBean = sb; }
+    public void setFejl(String f) {fejl = f; }
+    public String getFejl() { return fejl; }
 }
