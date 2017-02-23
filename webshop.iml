@@ -20,8 +20,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="org.jdom:jdom2:2.0.6" level="project" />
-    <orderEntry type="library" exported="" name="org.joinfaces:jsf-mojarra-spring-boot-autoconfigure:2.1.1" level="project" />
     <orderEntry type="library" exported="" name="javax.faces-2.2.1" level="project" />
-    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" exported="" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" exported="" name="com.sun.faces:mojarra-jsf-impl:2.0.0-b04" level="project" />
   </component>
 </module>
