@@ -73,7 +73,7 @@ public class Controller {
 
         service = new CloudService();
         OperationResult<Element> itemDescRes = service.convertItemDescription(itemDescription);
-        String info = "";
+        String info = "Unknown status";
         Document document = null;
 
         try {
@@ -90,13 +90,14 @@ public class Controller {
             service.setNamespace(root);
             document = new Document(root);
 
+
         } catch (Exception e) {
             info = e.toString();
         }
 
-        if (service.validate(document).isSuccess())
-            new CloudService().postit(baseURL + "modifyItem", document);
-
+        if (service.validate(document).isSuccess()) {
+            info = new CloudService().postit(baseURL + "modifyItem", document);
+        }
 
         return new OperationResult<>(service.validate(document).isSuccess(), info, new XMLOutputter().outputString(document));
     }

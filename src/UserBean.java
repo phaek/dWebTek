@@ -44,6 +44,7 @@ public class UserBean{
             isadmin = true;
             setLoggedin(false);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true); //Et lille hack; swap ud når admin-sessions er implementeret
+             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "au554760");
 
             System.out.println("Jeg er admin!");
             return "admin";

@@ -26,7 +26,7 @@ public class Filter implements javax.servlet.Filter {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Uh-oh, skidt er sket: " + e.getMessage());
+            System.out.println("Fejl med filter: " + e.getMessage());
         }
     }
 
