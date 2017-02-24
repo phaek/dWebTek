@@ -2,8 +2,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="template.xhtml">
     <ui:define name="slot">
 <h2>Brugernavn og adgangskode</h2>
@@ -11,9 +9,10 @@
     <h:inputText styleClass="searchfield" value="#{userBean.username}" type="text" name="username" title="" />
     <h:inputSecret styleClass="searchfield" value="#{userBean.password}" type="password" name="password" title=""/>
     <h:commandButton styleClass="knappit2" action="#{userBean.login(userBean.username, userBean.password)}" value="Login" />
+    <h:commandButton styleClass="knappit2" action="#{userBean.createCustomer(userBean.username, userBean.password)}" value="Create" />
 </h:form>
 
-<br /><br /><br />
+        <br /><br /><br />
 <h2>AU-login (OAuth2)</h2>
 <!--  http://webtek.cs.au.dk/projects/au554760/dev/oauthCallBack    ||     http://localhost:1337/oauthCallBack    -->
 <a class="knappit" href="https://services.brics.dk/java/dovs-auth/authorize?client_id=dovs&amp;redirect_uri=http://webtek.cs.au.dk/projects/au554760/dev/oauthCallBack&amp;response_type=code">Log ind med OAuth</a>
