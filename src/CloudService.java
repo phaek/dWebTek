@@ -20,13 +20,16 @@ class CloudService {
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private static final String baseURL = "http://webtek.cs.au.dk/cloud/";
     private ArrayList<Item> prodList = new ArrayList<>();
+    private ArrayList<Customer> customerList = new ArrayList<>();
 
     /**
-     * Creates a GET request for an entire list of products from 'shopID' and returns... nothing. Yet.
+     * Creates a GET request for an entire list of products from 'shopID' and returns the prodList
      */
     ArrayList<Item> listItems() throws IOException {
         URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
         Document doc = null;
+        prodList.clear();
+
         HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
@@ -58,6 +61,40 @@ class CloudService {
                     new XMLOutputter().outputElementContentString(e.getChild("itemDescription", NS))));
         }
         return prodList;
+    }
+
+
+    public ArrayList<Customer> listCustomers() throws IOException {
+        URL reqURL = new URL(baseURL + "listCustomers?shopID=" + 354);
+        Document doc = null;
+        customerList.clear();
+
+        HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        int respCode = connection.getResponseCode();
+        String respMsg = connection.getResponseMessage();
+
+        connection.disconnect(); //For at være flink ved server og lokale resurser
+
+
+        if (respCode == 200) {
+            try {
+                doc = new SAXBuilder().build(new BufferedReader(new InputStreamReader(reqURL.openStream())));
+            } catch (JDOMException | IOException e) {
+                System.out.println("Svar fra " + reqURL + " er malformed! Prøv igen med korrekt kommando/ID\n(Teknisk fejlmeddelelse: " + e + ")");
+            }
+        } else {
+            System.out.println("Serveren afviste vores forespørgesel :(\n(" + respCode + "): " + respMsg);
+        }
+
+
+        assert doc != null;
+        for (Element e : doc.getRootElement().getChildren()) {
+            customerList.add(new Customer(e.getDescendants(new ElementFilter("customerID")).next().getValue(), e.getDescendants(new ElementFilter("customerName")).next().getValue()));
+        }
+        return customerList;
     }
 
 
