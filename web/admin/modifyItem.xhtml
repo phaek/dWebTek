@@ -2,7 +2,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="template.xhtml">
     <ui:define name="slot">
@@ -12,7 +11,7 @@
 
 
     <h:form>
-        ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton style="margin-left: 10px; border-width: 0; :hover background-color: red;" value="delete" action="#{ModifyBean.delete}"/> <br/>
+        ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton styleClass="knappit2" value="delete" action="#{ModifyBean.delete}"/> <br/>
         Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
         URL: <h:inputText size="30" label="itemurl" value="#{ModifyBean.item.itemURL}"/> <br/>
         Price: <h:inputText size="30" label="itemprice" value="#{ModifyBean.item.itemPrice}"/> <br/><br/>
@@ -23,7 +22,7 @@
                 cols="100" rows="10"
                 value="#{ModifyBean.item.itemDescription2}"/>
         <br /><br />
-        <h:commandButton value="SAVE" action="#{ModifyBean.modify}"/>
+        <h:commandButton styleClass="knappit2" value="SAVE" action="#{ModifyBean.modify}"/>
         <br /> <br />
     </h:form>
 <h:outputText value="#{ModifyBean.fejl}" />
