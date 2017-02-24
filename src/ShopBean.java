@@ -16,7 +16,6 @@ public class ShopBean {
         rebuildProdList();
     }
 
-
     ArrayList<Item> rebuildProdList() {
         try {
             prodList = new CloudService().listItems();
@@ -26,7 +25,6 @@ public class ShopBean {
 
         return prodList;
     }
-
 
     public ArrayList<Item> getProdList() {
         return prodList;
