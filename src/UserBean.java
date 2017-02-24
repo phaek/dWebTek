@@ -111,11 +111,11 @@ public class UserBean{
 
 
     public String logout() {
-        setLoggedin(false);
-        setIsadmin(false);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isadmin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", null);
+        setLoggedin(false);
+        setIsadmin(false);
 
         return "login";
     }
