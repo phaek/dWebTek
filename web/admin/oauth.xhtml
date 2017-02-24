@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:w="http://www.cs.au.dk/dWebTek/2014">
-
-<head>
-    <title>Administratorinterface</title>
-</head>
-<body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:w="http://www.cs.au.dk/dWebTek/2014"
+                template="template.xhtml">
+    <ui:define name="slot">
 <h:form>
         <h3>Du er logget ind som OAuth-bruger</h3>
 </h:form>
@@ -51,5 +49,5 @@
 <h:form>
     <h:commandButton value="Log ud" action="#{userBean.logout}" />
 </h:form>
-</body>
-</html>
+</ui:define>
+</ui:composition>

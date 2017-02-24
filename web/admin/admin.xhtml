@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:w="http://www.cs.au.dk/dWebTek/2014">
-
-<head>
-    <title>Administratorinterface</title>
-</head>
-<body>
-<h:form>
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:w="http://www.cs.au.dk/dWebTek/2014"
+                template="template.xhtml">
+    <ui:define name="slot">
+ <h:form>
     <c:if test="#{userBean.isadmin}">
         <h3>Du er logget ind som #{userBean.username} (root user)</h3>
     </c:if>
@@ -47,15 +44,15 @@
         </h:column>
     </h:dataTable>
 </h:form>
-<br/><br/><br/>
-    <h:form>
-        <h:commandButton value="Opret produkt" action="#{CreateBean.createItem}">
-            <f:param name="id" value="#{item.itemID}" />
-        </h:commandButton>
-    </h:form>
-
+        <br/><br/><br/>
 <h:form>
-    <h:commandButton value="Log ud" action="#{userBean.logout}" />
+    <h:commandButton styleClass="knappit2" value="Opret produkt" action="#{CreateBean.createItem}">
+        <f:param name="id" value="#{item.itemID}" />
+    </h:commandButton>
 </h:form>
-</body>
-</html>
+        <br/><br/>
+<h:form>
+    <h:commandButton styleClass="knappit2" value="Log ud" action="#{userBean.logout}" />
+</h:form>
+</ui:define>
+</ui:composition>
