@@ -15,7 +15,7 @@
         Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
         URL: <h:inputText size="30" label="itemurl" value="#{ModifyBean.item.itemURL}"/> <br/>
         Price: <h:inputText size="30" label="itemprice" value="#{ModifyBean.item.itemPrice}"/> <br/><br/>
-        Stock: <h:inputText size="30" label="itemstock" value="#{ModifyBean.item.itemStock}"/> <br/><br/>
+        Stock: <h:inputText size="30" label="itemstock" value="#{ModifyBean.item.itemStock}"/> <h:commandButton styleClass="knappit2" value="+1" action="#{ModifyBean.adjustStock(1)}"/> <br/><br/>
         Description:<br/>
         <h:inputTextarea
                 label="itemdescription"
