@@ -1,6 +1,7 @@
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import java.io.IOException;
 
 
 @ManagedBean(name="ModifyBean")
@@ -37,6 +38,17 @@ public class ModifyBean {
         }
 
         return "admin";
+    }
+
+    public String adjustStock(int stock) {
+        try {
+            new Controller().adjustItemStock(item, stock);
+            shopBean.rebuildProdList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "modifyItem";
     }
 
     public String getItemID(){
