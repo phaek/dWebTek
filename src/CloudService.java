@@ -18,38 +18,28 @@ import java.util.ArrayList;
 class CloudService {
 
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
-    private static final String baseURL = "http://webtek.cs.au.dk/cloud/";
     private ArrayList<Item> prodList = new ArrayList<>();
     private ArrayList<Customer> customerList = new ArrayList<>();
 
     /**
-     * Creates a GET request for an entire list of products from 'shopID' and returns the prodList
+     * Grabs the entire item list and returns ArrayList<Item>
      */
     ArrayList<Item> listItems() throws IOException {
-        URL reqURL = new URL(baseURL + "listItems?shopID=" + 354);
+        String reqURL ="http://webtek.cs.au.dk/cloud/listItems?shopID=" + 354;
         Document doc = null;
         prodList.clear();
 
-        HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
+        OperationResult<Integer> result = getit(reqURL);
 
-        int respCode = connection.getResponseCode();
-        String respMsg = connection.getResponseMessage();
-
-        connection.disconnect(); //For at være flink ved server og lokale resurser
-
-
-        if (respCode == 200) {
+        if (result.getResult() == 200) {
             try {
-                doc = new SAXBuilder().build(new BufferedReader(new InputStreamReader(reqURL.openStream())));
+                doc = new SAXBuilder().build(new StringReader(result.getMessage()));
             } catch (JDOMException | IOException e) {
-                System.out.println("Svar fra " + reqURL + " er malformed! Prøv igen med korrekt kommando/ID\n(Teknisk fejlmeddelelse: " + e + ")");
+                System.out.println("listItems gik galt: " + e.getMessage());
             }
         } else {
-            System.out.println("Serveren afviste vores forespørgesel :(\n(" + respCode + "): " + respMsg);
+            System.out.println("Serveren afviste vores forespørgesel med kode " + result.getResult());
         }
-
 
         assert doc != null;
         for (Element e : doc.getRootElement().getChildren()) {
@@ -65,35 +55,25 @@ class CloudService {
 
 
     public ArrayList<Customer> listCustomers() throws IOException {
-        URL reqURL = new URL(baseURL + "listCustomers?shopID=" + 354);
+        String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + 354;
         Document doc = null;
         customerList.clear();
 
-        HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
+        OperationResult<Integer> result = getit(reqURL);
 
-        int respCode = connection.getResponseCode();
-        String respMsg = connection.getResponseMessage();
-
-        connection.disconnect(); //For at være flink ved server og lokale resurser
-
-
-        if (respCode == 200) {
+        if(result.getResult() == 200) {
             try {
-                doc = new SAXBuilder().build(new BufferedReader(new InputStreamReader(reqURL.openStream())));
-            } catch (JDOMException | IOException e) {
-                System.out.println("Svar fra " + reqURL + " er malformed! Prøv igen med korrekt kommando/ID\n(Teknisk fejlmeddelelse: " + e + ")");
+                doc = new SAXBuilder().build(new StringReader(result.getMessage()));
+                if (doc != null) {
+                    for (Element e : doc.getRootElement().getChildren()) {
+                        customerList.add(new Customer(e.getDescendants(new ElementFilter("customerID")).next().getValue(), e.getDescendants(new ElementFilter("customerName")).next().getValue()));
+                    }
+                }
+            } catch (JDOMException e) {
+                System.out.println("listCustomers er gået galt: " + e.getMessage() + ", og " + result.getMessage());
             }
-        } else {
-            System.out.println("Serveren afviste vores forespørgesel :(\n(" + respCode + "): " + respMsg);
         }
 
-
-        assert doc != null;
-        for (Element e : doc.getRootElement().getChildren()) {
-            customerList.add(new Customer(e.getDescendants(new ElementFilter("customerID")).next().getValue(), e.getDescendants(new ElementFilter("customerName")).next().getValue()));
-        }
         return customerList;
     }
 
@@ -158,6 +138,41 @@ class CloudService {
         in.close();
 
         return response.toString();
+    }
+
+    /**
+     * 'GET' requests via HTTP
+     */
+    public OperationResult<Integer> getit(String inputUrl) {
+        int respCode = 0;
+        String respMsg = "";
+        URL reqURL = null;
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            reqURL = new URL(inputUrl);
+            HttpURLConnection connection = (HttpURLConnection) reqURL.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            respCode = connection.getResponseCode();
+
+            if (respCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null)
+                    sb.append(line);
+                in.close();
+
+                respMsg = sb.toString();
+
+                connection.disconnect(); //For at være flink ved server og lokale resurser
+            }
+        } catch (IOException e) {
+            respMsg = "Fejl i GET: " + e.getMessage();
+        }
+
+        return new OperationResult<>(true, respMsg, respCode);
     }
 
     /**
