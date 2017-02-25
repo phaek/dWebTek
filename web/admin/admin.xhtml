@@ -17,6 +17,9 @@
             <c:if test="#{userBean.loggedin}">
                 <h3>Du er logget ind som #{userBean.username} (normal user) <h:commandButton styleClass="knappit2" value="Log ud" action="#{userBean.logout}" /></h3>
             </c:if>
+            <c:if test="#{!userBean.isadmin and !userBean.loggedin}">
+                <h:commandButton styleClass="knappit2" value="Log ud" action="#{userBean.logout}" />
+            </c:if>
         </h:form>
 
         <br/><br/><br/>
