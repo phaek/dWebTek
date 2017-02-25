@@ -50,13 +50,13 @@ public class Controller {
 
 
 
-    public String adjustItemStock(Item item) throws IOException {
+    public String adjustItemStock(Item item, int stock) throws IOException {
         String result = null;
         
         Element root = new Element("adjustItemStock", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
         root.addContent(new Element("itemID", NS).setText(String.valueOf(item.getItemID())));
-        root.addContent(new Element("adjustment", NS).setText(String.valueOf(item.getItemStock()+1)));
+        root.addContent(new Element("adjustment", NS).setText(String.valueOf(stock)));
         Document doc = new Document(root);
 
         if (new CloudService().validate(doc).isSuccess()) {
