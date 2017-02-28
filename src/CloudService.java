@@ -20,12 +20,14 @@ class CloudService {
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private ArrayList<Item> prodList = new ArrayList<>();
     private ArrayList<Customer> customerList = new ArrayList<>();
+    private ArrayList<Shop> shopList = new ArrayList<>();
 
     /**
      * Grabs the entire item list and returns ArrayList<Item>
      */
-    ArrayList<Item> listItems() throws IOException {
-        String reqURL ="http://webtek.cs.au.dk/cloud/listItems?shopID=" + 354;
+    ArrayList<Item> listItems(int id) throws IOException {
+        id = 354;
+        String reqURL ="http://webtek.cs.au.dk/cloud/listItems?shopID=" + id;
         Document doc = null;
         prodList.clear();
 
@@ -54,8 +56,9 @@ class CloudService {
     }
 
 
-    public ArrayList<Customer> listCustomers() throws IOException {
-        String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + 354;
+    public ArrayList<Customer> listCustomers(int shopid) throws IOException {
+        shopid = 354;
+        String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + shopid;
         Document doc = null;
         customerList.clear();
 
@@ -75,6 +78,16 @@ class CloudService {
         }
 
         return customerList;
+    }
+
+    public ArrayList<Shop> listShops() throws JDOMException, IOException {
+        shopList.clear();
+        Document doc = new SAXBuilder().build(getit("listShops").getMessage());
+
+        for (Element e : doc.getRootElement().getChildren())
+            shopList.add(new Shop(Integer.parseInt(e.getDescendants(new ElementFilter("shopID")).next().getValue()), e.getDescendants(new ElementFilter("shopName")).next().getValue(), e.getDescendants(new ElementFilter("shopURL")).next().getValue()));
+
+        return shopList;
     }
 
 
