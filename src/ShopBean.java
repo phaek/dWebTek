@@ -11,6 +11,7 @@ public class ShopBean {
     private ArrayList<Item> prodList = null;
     private Item item = null;
     private String message;
+    private int shopid = 354;
 
     public ShopBean() {
         rebuildProdList();
@@ -18,8 +19,9 @@ public class ShopBean {
 
     ArrayList<Item> rebuildProdList() {
         try {
-            prodList = new CloudService().listItems();
+            prodList = new CloudService().listItems(shopid);
         } catch (IOException e) {
+            System.out.println("Genopbygning af produktlisten fejlede: " + e);
             message = e.getMessage();
         }
 
