@@ -33,10 +33,10 @@ public class UserBean{
 
 
 
-    public UserBean() throws NoSuchAlgorithmException {
+    public UserBean() {
     }
 
-    String md5crypt(String in) throws NoSuchAlgorithmException {
+    private String md5crypt(String in) {
         try {
             return Arrays.toString(MessageDigest.getInstance("MD5").digest(in.getBytes()));
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class UserBean{
 
         if (new CloudService().validate(doc).isSuccess()) {
             try {
-                customerList = new CloudService().listCustomers();
+                customerList = new CloudService().listCustomers(354);
                 for (Customer c : customerList)
                     if (c.getCustomerName().equals(username))
                         return "login";
@@ -74,11 +74,11 @@ public class UserBean{
                 e.printStackTrace();
             }
         }
-        return result;
+        return null;
     }
 
 
-    public String login(String username, String password) throws NoSuchAlgorithmException {
+    public String login(String username, String password) {
 
         setIsadmin(false);
         setLoggedin(false);
@@ -93,14 +93,13 @@ public class UserBean{
 
             //Ingen bruger :(
              try {
-                 customerList = new CloudService().listCustomers();
+                 customerList = new CloudService().listCustomers(354);
                  for (Customer c : customerList)
                      if (c.getCustomerName().equals(username)) {
                          setLoggedin(true);
-                         return "admin";
+                         return "OK";
                      }
-                     else
-                         return "login";
+                     return "login";
              } catch (IOException e) {
                  return "login";
              }
