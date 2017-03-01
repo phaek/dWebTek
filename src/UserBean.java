@@ -86,37 +86,33 @@ public class UserBean{
             //Logger ind som admin...
          if (md5crypt(username).equals(md5crypt(admin[0])) && md5crypt(password).equals(md5crypt(admin[1]))) {
             isadmin = true;
+            loggedin = true;
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true); //Et lille hack; swap ud når admin-sessions er implementeret
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "au554760");
+             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", true);
              return "admin";
         } else if (!username.isEmpty() && !password.isEmpty()){
 
             //Ingen bruger :(
-             try {
-                 customerList = new CloudService().listCustomers(354);
-                 for (Customer c : customerList)
-                     if (c.getCustomerName().equals(username)) {
-                         setLoggedin(true);
-                         return "OK";
-                     }
-                     return "login";
-             } catch (IOException e) {
-                 return "login";
-             }
-        }
+             customerList = new CloudService().listCustomers(354);
+             for (Customer c : customerList)
+                 if (c.getCustomerName().equals(username)) {
+                     setLoggedin(true);
+                     return "OK";
+                 }
+             return "login";
+         }
 
         return "login";
     }
 
 
-    public String logout() {
+    public void logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isadmin", null);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", null);
-        setLoggedin(false);
-        setIsadmin(false);
-
-        return "login";
+        loggedin = false;
+        isadmin = false;
     }
 
     public void setUsername(String username) {
