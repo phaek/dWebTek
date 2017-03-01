@@ -25,7 +25,7 @@ class CloudService {
     /**
      * Grabs the entire item list and returns ArrayList<Item>
      */
-    ArrayList<Item> listItems(int id) throws IOException {
+    ArrayList<Item> listItems(int id) {
         id = 354;
         String reqURL ="http://webtek.cs.au.dk/cloud/listItems?shopID=" + id;
         Document doc = null;
@@ -56,7 +56,7 @@ class CloudService {
     }
 
 
-    public ArrayList<Customer> listCustomers(int shopid) throws IOException {
+    public ArrayList<Customer> listCustomers(int shopid) {
         shopid = 354;
         String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + shopid;
         Document doc = null;
@@ -72,7 +72,7 @@ class CloudService {
                         customerList.add(new Customer(e.getDescendants(new ElementFilter("customerID")).next().getValue(), e.getDescendants(new ElementFilter("customerName")).next().getValue()));
                     }
                 }
-            } catch (JDOMException e) {
+            } catch (JDOMException | IOException e) {
                 System.out.println("listCustomers er gået galt: " + e.getMessage() + ", og " + result.getMessage());
             }
         }
@@ -80,12 +80,19 @@ class CloudService {
         return customerList;
     }
 
-    public ArrayList<Shop> listShops() throws JDOMException, IOException {
+    public ArrayList<Shop> listShops() {
         shopList.clear();
-        Document doc = new SAXBuilder().build(getit("listShops").getMessage());
+        Document doc = null;
 
-        for (Element e : doc.getRootElement().getChildren())
-            shopList.add(new Shop(Integer.parseInt(e.getDescendants(new ElementFilter("shopID")).next().getValue()), e.getDescendants(new ElementFilter("shopName")).next().getValue(), e.getDescendants(new ElementFilter("shopURL")).next().getValue()));
+        try {
+            doc = new SAXBuilder().build(new StringReader(getit("http://webtek.cs.au.dk/cloud/listShops").getMessage()));
+
+            for (Element e : doc.getRootElement().getChildren())
+                shopList.add(new Shop(Integer.parseInt(e.getDescendants(new ElementFilter("shopID")).next().getValue()), e.getDescendants(new ElementFilter("shopName")).next().getValue(), e.getDescendants(new ElementFilter("shopURL")).next().getValue()));
+
+        } catch (JDOMException | IOException e) {
+            e.printStackTrace();
+        }
 
         return shopList;
     }
