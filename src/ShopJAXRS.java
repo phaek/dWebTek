@@ -1,9 +1,7 @@
-import org.jdom2.JDOMException;
-import org.json.JSONArray;
+import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,12 +17,14 @@ public class ShopJAXRS {
 
     private HttpSession session;
     private CloudService service;
+    private Gson gson;
 
 
     public ShopJAXRS(HttpServletRequest request) {
         session = request.getSession();
         session.isNew();
         service = new CloudService();
+        gson = new Gson();
     }
 
 
@@ -69,36 +69,18 @@ public class ShopJAXRS {
 
 
     @GET
-    @Path("shopItems/{shopID}")
+    @Path("/listShopItems/{shopID}")
     public String listItems(@PathParam("shopID") int shopID) {
-        ArrayList<Item> prodList;
-        JSONArray prodListJSON = null;
-
-        try {
-            prodList = service.listItems(shopID);
-            prodListJSON = new JSONArray(prodList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return prodListJSON != null ? prodListJSON.toString() : null;
+        ArrayList<Item> prodList = service.listItems(shopID);
+        return gson.toJson(prodList);
     }
 
 
     @GET
-    @Path("shops")
+    @Path("/listShops")
     public String listShops() {
-        ArrayList<Shop> shops;
-        JSONArray shopListJSON = null;
-
-        try {
-            shops = service.listShops();
-            shopListJSON = new JSONArray(shops);
-        } catch (JDOMException | IOException e) {
-            System.out.println("Noget gik galt med listShops(): " + e);
-        }
-
-        return shopListJSON != null ? shopListJSON.toString() : null;
+        ArrayList<Shop> shops = service.listShops();
+        return gson.toJson(shops);
     }
 
 
