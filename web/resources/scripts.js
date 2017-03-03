@@ -1,23 +1,44 @@
-var map = new Map();
-var map2 = new Map();
-var xmlDoc = getRequest("products.xml");
-var products = [];
-var allProducts = [];
+function handleProducts() {
+    sendRequest('GET', 'rest/shop/listShopItems/' + document.getElementById("shops").value, null, function(prodData) {
+        var prodhtml = "";
 
+            var prodList = JSON.parse(prodData);
+        for (var prodKey in prodList)
+            prodhtml += "<div style='height: auto; width: 300px; background-color: white; display: inline-flex'>" + //Start produktdiv og tilføj style
+
+                "<a href='" + prodList[prodKey]["itemURL"] +"' style='background-color:white'>" +
+                  "<p class='prodNavn'>" +
+                    "<img src='" + prodList[prodKey]["itemURL"] + "' style='height:280px; width: 300px; display: block; margin: 0 auto;' alt=''/>" +
+                    JSON.stringify(prodList[prodKey]["itemName"]) +
+                  "</p>" +
+                "<p class='prodPris'>" + prodList[prodKey]["itemPrice"] + " kr</p>" +
+                "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "</div>" +
+                "</a>" + //Produkbilleder fra hver URL
+                "<button id='purchaseBtn' onclick='purchase()' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
+
+                "</div>"//Afslut produktdiv
+        document.getElementById("produktDiv").innerHTML = prodhtml;
+
+        if(document.getElementById("shops").value == 354) {
+            document.getElementById("purchaseBtn").style.display='inline';
+        }
+    });
+}
 
 /**
  * Handles any 'Enter' keypresses if Searchfield is focused
  */
 $(document).keypress(function (e) {
     if (e.which == 13 && $(document.getElementById('searchfield')).is(':focus')) {
-        searchBarSearch();
+        alert("Søgefunktionen er under genopbygning fra jQuery/JSF → JS/JAX-RS");
     }
 });
 
+/*
 
 /**
  * Populates a <div> from Search input
- */
+ */    /*
 function searchBarSearch() {
     products = [];
     if ((document).getElementById('searchfield').length !== 0) {
@@ -36,54 +57,9 @@ function searchBarSearch() {
     }
 }
 
-
-/**
- * Creates a GET request to 'url' parameter and returns an XML document
- * @param url
- * @returns {Document}
- */
-function getRequest(url) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.withCredentials = false;
-    xmlhttp.open("get", url, false);
-    xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-    xmlhttp.send();
-    return xmlhttp.responseXML;
-}
-
-
-
-/**
- * Loads the entire product list from getRequest() into index.html
- */
-function loadProducts() {
-    for (var searchResultIndex = 0; searchResultIndex < products.length; searchResultIndex++) {
-        for (var productIndex = 0; productIndex < allProducts.length; productIndex++) {
-            if ($('#produktTabel').css('width').substring(0, $('#produktTabel').css('width').length - 2) > 1150) {
-                if ($('#produktTabel td').length % 3 === 0) {
-                    $('#produktTabel').find('td').css('width', '33%');
-                    $('#produktTabel').append('<tr>', null);
-                }
-                if (products[searchResultIndex] === xmlDoc.getElementsByTagName("itemID")[productIndex].childNodes[0].nodeValue) {
-                    $('#produktTabel').find('tr:last').append('<td><a href="#"><p class="prodNavn"><img src="' + xmlDoc.getElementsByTagName("itemURL")[productIndex].childNodes[0].nodeValue + '" alt=""> ' + xmlDoc.getElementsByTagName("itemName")[productIndex].childNodes[0].nodeValue + '</p></a><p class="prodPris">' + xmlDoc.getElementsByTagName("itemPrice")[productIndex].childNodes[0].nodeValue + ' kr</p>', "");
-                }
-            }
-            else {
-                if ($('#produktTabel td').length % 2 === 0) {
-                    $('#produktTabel').append('<tr>', null);
-                }
-                if (products[searchResultIndex] === xmlDoc.getElementsByTagName("itemID")[productIndex].childNodes[0].nodeValue) {
-                    $('#produktTabel').find('tr:last').append('<td><a href="#"><p class="prodNavn"><img src="' + xmlDoc.getElementsByTagName("itemURL")[productIndex].childNodes[0].nodeValue + '" alt=""> ' + xmlDoc.getElementsByTagName("itemName")[productIndex].childNodes[0].nodeValue + '</p></a><p class="prodPris">' + xmlDoc.getElementsByTagName("itemPrice")[productIndex].childNodes[0].nodeValue + ' kr</p>', "");
-                }
-            }
-        }
-    }
-}
-
-
 /**
  * Reads an XML list of products and populates the webshop with said products
- */
+ */   /*
 function onLoad() {
     for (var i = 0; i < (xmlDoc.getElementsByTagName('items')[0].childNodes.length)-(xmlDoc.getElementsByTagName('items')[0].childNodes.length/1.75); i++) {
         map.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue);
@@ -95,10 +71,7 @@ function onLoad() {
     }
 
     loadProducts(products);
-}
-
-
-
+}*/
 
 
 
@@ -262,6 +235,4 @@ Map.prototype.key = function() {
 
 Map.prototype.value = function() {
     return this.current.value;
-};/**
- * Created by phaek on 2/16/17.
- */
+};

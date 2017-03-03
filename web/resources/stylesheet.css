@@ -203,7 +203,17 @@ a:hover {
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    text-align: center;
 }
+
+#produktDiv img {
+    display: block;
+    margin: auto;
+    min-height: 50%;
+    max-width: 300px;
+    max-height: 300px;
+}
+
 
 #produktTabel {
     font-family: "Segoe UI Light", sans-serif, Helvetica;
@@ -243,6 +253,7 @@ a:hover {
     font-family: 'Segoe UI Light', "Arial", serif;
     font-size: 22px;
     font-weight: bold;
+    margin: 0;
 }
 
 #footer {
