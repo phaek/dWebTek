@@ -42,7 +42,7 @@ public class Controller {
             info = e.toString();
             e.printStackTrace();
         }
-        
+
         retVal = new OperationResult<>(true, info, returnShopID);
 
         return retVal;
@@ -52,7 +52,7 @@ public class Controller {
 
     public String adjustItemStock(Item item, int stock) throws IOException {
         String result = null;
-        
+
         Element root = new Element("adjustItemStock", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
         root.addContent(new Element("itemID", NS).setText(String.valueOf(item.getItemID())));
