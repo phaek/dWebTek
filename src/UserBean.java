@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,7 +61,7 @@ public class UserBean{
                 for (Customer c : customerList)
                     if (c.getCustomerName().equals(username))
                         return "login";
-                else {
+                    else {
                         String res = new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL + "createCustomer", doc))).getRootElement().getValue();
                         isNew = true;
                         isNewMessage = "Du er oprettet som ny bruger! Brugernavn: " + username + " og ID: " + res;
@@ -83,25 +82,25 @@ public class UserBean{
         setIsadmin(false);
         setLoggedin(false);
 
-            //Logger ind som admin...
-         if (md5crypt(username).equals(md5crypt(admin[0])) && md5crypt(password).equals(md5crypt(admin[1]))) {
+        //Logger ind som admin...
+        if (md5crypt(username).equals(md5crypt(admin[0])) && md5crypt(password).equals(md5crypt(admin[1]))) {
             isadmin = true;
             loggedin = true;
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true); //Et lille hack; swap ud når admin-sessions er implementeret
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "au554760");
-             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", true);
-             return "admin";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", true);
+            return "admin";
         } else if (!username.isEmpty() && !password.isEmpty()){
 
             //Ingen bruger :(
-             customerList = new CloudService().listCustomers(354);
-             for (Customer c : customerList)
-                 if (c.getCustomerName().equals(username)) {
-                     setLoggedin(true);
-                     return "OK";
-                 }
-             return "login";
-         }
+            customerList = new CloudService().listCustomers(354);
+            for (Customer c : customerList)
+                if (c.getCustomerName().equals(username)) {
+                    setLoggedin(true);
+                    return "OK";
+                }
+            return "login";
+        }
 
         return "login";
     }
