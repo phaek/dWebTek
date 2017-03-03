@@ -9,14 +9,5 @@
             <component-type>xml2html</component-type>
         </component>
     </tag>
-    <tag>
-        <tag-name>box</tag-name>
-        <component>
-            <resource-id>
-                test/panelBox.xhtml
-            </resource-id>
-        </component>
-    </tag>
 </facelet-taglib>
-
 
