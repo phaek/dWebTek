@@ -7,28 +7,20 @@ import java.util.ArrayList;
 
 
 public class ShopBean {
-    private ArrayList<Item> prodList = null;
-    private ArrayList<Shop> shopList = null;
+    private int shopid = 354;
+    private ArrayList<Item> prodList = new CloudService().listItems(shopid);
+    private ArrayList<Shop> shopList;
     private Item item = null;
     private String message;
-    private int shopid = 354;
     private Shop shop;
 
     public ShopBean() {
-
         setShop(354);
         rebuildProdList();
-        rebuildShopList();
     }
 
-    ArrayList<Shop> rebuildShopList() {
-        return new CloudService().listShops();
-    }
-
-    ArrayList<Item> rebuildProdList() {
-        return new CloudService().listItems(shopid);
-    }
-
+    public ArrayList<Shop> rebuildShopList() {return new CloudService().listShops();}
+    public ArrayList<Item> rebuildProdList() {return new CloudService().listItems(shopid);}
     public ArrayList<Item> getProdList() {
         return prodList;
     }
@@ -43,8 +35,10 @@ public class ShopBean {
 
     public void setShop(int shopid) {
 
-            for (Shop s : new CloudService().listShops())
-                if (s.getShopID() == shopid)
-                    this.shop = s;
+        shopList = new CloudService().listShops();
+
+        for (Shop s : shopList)
+            if (s.getShopID() == shopid)
+                this.shop = s;
     }
 }
