@@ -26,7 +26,6 @@ class CloudService {
      * Grabs the entire item list and returns ArrayList<Item>
      */
     ArrayList<Item> listItems(int id) {
-        id = 354;
         String reqURL ="http://webtek.cs.au.dk/cloud/listItems?shopID=" + id;
         Document doc = null;
         prodList.clear();
@@ -57,7 +56,6 @@ class CloudService {
 
 
     public ArrayList<Customer> listCustomers(int shopid) {
-        shopid = 354;
         String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + shopid;
         Document doc = null;
         customerList.clear();
