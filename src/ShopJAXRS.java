@@ -10,38 +10,33 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 
 
 @Path("shop")
 public class ShopJAXRS {
 
     private HttpSession session;
-    private CloudService service;
-    private Gson gson;
+    private CloudService service = new CloudService();
+    private Gson gson = new Gson();
 
 
-    public ShopJAXRS(HttpServletRequest request) {
+    public ShopJAXRS(@Context HttpServletRequest request) {
         session = request.getSession();
-        session.isNew();
-        service = new CloudService();
-        gson = new Gson();
     }
 
 
     @POST
     @Path("login")
     public String login(@FormParam("username") String username, @FormParam("password") String password) {
-        if((new UserBean().login(username, password)).equals("OK")) {
+        if(session.isNew())
             session.setAttribute("sessionid", username);
-            return "LOGGEDIN"; //Burde virkelig opsætte faces korrekt..
-        }
-        else
-            return "LOGINFAIL"; //...ja...
+        return "Korrekt login: " + username; //Burde virkelig opsætte faces korrekt..
     }
 
 
     @GET
-    @Path("loggedIn")
+    @Path("/loggedIn")
     public String loggedIn() {
         if (session.getAttribute("sessionid") != null)
             return session.getAttribute("sessionid").toString();
@@ -62,7 +57,7 @@ public class ShopJAXRS {
      */
 
     @POST
-    @Path("logout")
+    @Path("/logout")
     public void logout() {
         session.setAttribute("sessionid", null);
     }
@@ -77,30 +72,29 @@ public class ShopJAXRS {
 
 
     @GET
-    @Path("/listShops")
+    @Path("listShops")
     public String listShops() {
-        ArrayList<Shop> shops = service.listShops();
-        return gson.toJson(shops);
+        return gson.toJson(new CloudService().listShops());
     }
 
 
     @POST
-    @Path("basket")
-    public void addToBasket(@FormParam("itemid") String itemID, @FormParam("itemstock") int itemStock) {
+    @Path("/basket")
+    public void addToBasket(@FormParam("itemid") String itemID) {
         shopItem(itemID);
         System.out.println("addToBasket: " + session.getAttribute("basket"));
     }
 
 
     @POST
-    @Path("checkSession")
+    @Path("/checkSession")
     public boolean checkSession() {
         return session.getAttribute("sessionid") != null;
     }
 
 
     @POST
-    @Path("shopItem")
+    @Path("/shopItem")
     @SuppressWarnings("unchecked")
     public void shopItem(String input) {
         HashMap<String, Integer> basket = (HashMap<String, Integer>) session.getAttribute("basketHashMap");
@@ -113,6 +107,6 @@ public class ShopJAXRS {
         else
             basket.put(input, 1);
 
-        session.setAttribute("basketHashMap", basket);
+        session.setAttribute("basket", basket);
     }
 }
