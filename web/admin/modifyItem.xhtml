@@ -5,28 +5,28 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="template.xhtml">
     <ui:define name="slot">
-    <f:metadata>
-        <f:viewParam name="id" value="#{ModifyBean.itemID}" />
-    </f:metadata>
+        <f:metadata>
+            <f:viewParam name="id" value="#{ModifyBean.itemID}" />
+        </f:metadata>
 
 
-    <h:form>
-        ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton styleClass="knappit2" value="delete" action="#{ModifyBean.delete}"/> <br/>
-        Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
-        URL: <h:inputText size="30" label="itemurl" value="#{ModifyBean.item.itemURL}"/> <br/>
-        Price: <h:inputText size="30" label="itemprice" value="#{ModifyBean.item.itemPrice}"/> <br/><br/>
-        Stock: <h:inputText size="30" label="itemstock" value="#{ModifyBean.item.itemStock}"/> <h:commandButton styleClass="knappit2" value="+1" action="#{ModifyBean.adjustStock(1)}"/> <br/><br/>
-        Description:<br/>
-        <h:inputTextarea
-                label="itemdescription"
-                cols="100" rows="10"
-                value="#{ModifyBean.item.itemDescription2}"/>
-        <br /><br />
-        <h:commandButton styleClass="knappit2" value="SAVE" action="#{ModifyBean.modify}"/>
-        <br /> <br />
-    </h:form>
-<h:outputText value="#{ModifyBean.fejl}" />
+        <h:form>
+            ID: <h:outputText label="itemid" value="#{ModifyBean.item.itemID}" /> <h:commandButton styleClass="knappit2" value="delete" action="#{ModifyBean.delete}"/> <br/>
+            Name: <h:inputText size="30" label="itemname" value="#{ModifyBean.item.itemName}"/> <br/>
+            URL: <h:inputText size="30" label="itemurl" value="#{ModifyBean.item.itemURL}"/> <br/>
+            Price: <h:inputText size="30" label="itemprice" value="#{ModifyBean.item.itemPrice}"/> <br/><br/>
+            Stock: <h:inputText size="30" label="itemstock" value="#{ModifyBean.item.itemStock}"/> <h:commandButton styleClass="knappit2" value="+1" action="#{ModifyBean.adjustStock(1)}"/> <br/><br/>
+            Description:<br/>
+            <h:inputTextarea
+                    label="itemdescription"
+                    cols="100" rows="10"
+                    value="#{ModifyBean.item.itemDescription2}"/>
+            <br /><br />
+            <h:commandButton styleClass="knappit2" value="SAVE" action="#{ModifyBean.modify}"/>
+            <br /> <br />
+        </h:form>
+        <h:outputText value="#{ModifyBean.fejl}" />
 
 
-</ui:define>
+    </ui:define>
 </ui:composition>
