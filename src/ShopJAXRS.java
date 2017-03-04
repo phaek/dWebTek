@@ -59,6 +59,7 @@ public class ShopJAXRS {
     @Path("done")
     public void done() {
         basket.clear();
+        basket = null;
         session.setAttribute("sessionid", null);
     }
 
