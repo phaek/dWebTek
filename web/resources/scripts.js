@@ -14,7 +14,7 @@ function handleProducts() {
                 "<p class='prodPris'>" + prodList[prodKey]["itemPrice"] + " kr</p>" +
                 "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "</div>" +
                 "</a>" + //Produkbilleder fra hver URL
-                "<button id='purchaseBtn' onclick='purchase()' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
+                "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
