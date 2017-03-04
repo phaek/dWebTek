@@ -6,19 +6,19 @@ function handleProducts() {
 
         for (var prodKey in prodList)
             prodhtml +=
-                "<div style='height: auto; width: 300px; background-color: white; display: inline-flex'>" + //Start produktdiv og tilføj style
+                "<div style='height: auto; width: 300px; background-color: white; display: inline-flex; margin-right: 10px'>" + //Start produktdiv og tilføj style
 
                     "<a href='" + prodList[prodKey]["itemURL"] +"' style='background-color:white'>" +
                         "<p class='prodNavn'>" +
                             "<img src='" + prodList[prodKey]["itemURL"] + "' style='height:280px; width: 300px; display: block; margin: 0 auto;' alt=''/>" +
-                                JSON.stringify(prodList[prodKey]["itemName"]) +
+                                JSON.stringify(prodList[prodKey]["itemName"]).substring(1, prodList[prodKey]["itemName"].length+1) +
                         "</p>" +
                         "<p class='prodPris'>" + prodList[prodKey]["itemPrice"] + " kr" +
                         "</p>" +
                         "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "" +
                         "</div>" +
                     "</a>" + //Produkbilleder fra hver URL
-                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
+                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; position: absolute; left: inherit + 50px'>Køb</button>" +
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
