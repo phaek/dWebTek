@@ -41,12 +41,8 @@ public class ModifyBean {
     }
 
     public String adjustStock(int stock) {
-        try {
-            new Controller().adjustItemStock(item, stock);
-            shopBean.rebuildProdList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Controller().adjustItemStock(item, stock);
+        shopBean.rebuildProdList();
 
         return "modifyItem";
     }
