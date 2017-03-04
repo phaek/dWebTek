@@ -1,24 +1,29 @@
 function handleProducts() {
     sendRequest('GET', 'rest/shop/listShopItems/' + document.getElementById("shops").value, null, function(prodData) {
         var prodhtml = "";
+        var prodList = JSON.parse(prodData);
 
-            var prodList = JSON.parse(prodData);
+
         for (var prodKey in prodList)
-            prodhtml += "<div style='height: auto; width: 300px; background-color: white; display: inline-flex'>" + //Start produktdiv og tilføj style
+            prodhtml +=
+                "<div style='height: auto; width: 300px; background-color: white; display: inline-flex'>" + //Start produktdiv og tilføj style
 
-                "<a href='" + prodList[prodKey]["itemURL"] +"' style='background-color:white'>" +
-                  "<p class='prodNavn'>" +
-                    "<img src='" + prodList[prodKey]["itemURL"] + "' style='height:280px; width: 300px; display: block; margin: 0 auto;' alt=''/>" +
-                    JSON.stringify(prodList[prodKey]["itemName"]) +
-                  "</p>" +
-                "<p class='prodPris'>" + prodList[prodKey]["itemPrice"] + " kr</p>" +
-                "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "</div>" +
-                "</a>" + //Produkbilleder fra hver URL
-                "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
+                    "<a href='" + prodList[prodKey]["itemURL"] +"' style='background-color:white'>" +
+                        "<p class='prodNavn'>" +
+                            "<img src='" + prodList[prodKey]["itemURL"] + "' style='height:280px; width: 300px; display: block; margin: 0 auto;' alt=''/>" +
+                                JSON.stringify(prodList[prodKey]["itemName"]) +
+                        "</p>" +
+                        "<p class='prodPris'>" + prodList[prodKey]["itemPrice"] + " kr" +
+                        "</p>" +
+                        "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "" +
+                        "</div>" +
+                    "</a>" + //Produkbilleder fra hver URL
+                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; display:none'>Køb</button>" +
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
 
+        //Tjek til om 'purchase(itemid)' skal vises ved produkterne eller ej //TODO: fix it
         if(document.getElementById("shops").value == 354) {
             document.getElementById("purchaseBtn").style.display='inline';
         }
