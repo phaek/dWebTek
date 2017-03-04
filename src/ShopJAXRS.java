@@ -37,15 +37,6 @@ public class ShopJAXRS {
         return "Brugernavn: " + session.getAttribute("sessionid");
     }
 
-    @GET
-    @Path("/loggedIn")
-    public String loggedIn() {
-        if (session.getAttribute("sessionid") != null)
-            return session.getAttribute("sessionid").toString();
-        else
-            return "Ikke logget ind..";
-    }
-
 
     /*
 
@@ -59,8 +50,15 @@ public class ShopJAXRS {
      */
 
     @POST
-    @Path("/logout")
+    @Path("logout")
     public void logout() {
+        session.setAttribute("sessionid", null);
+    }
+
+    @POST
+    @Path("done")
+    public void done() {
+        basket.clear();
         session.setAttribute("sessionid", null);
     }
 
@@ -72,24 +70,52 @@ public class ShopJAXRS {
         return gson.toJson(prodList);
     }
 
-
     @GET
-    @Path("/checkBasket/{userid}")
-    public HashMap<String, Integer> checkBasket(@PathParam("userid") String user) {
-        if (session.getAttribute("sessionid").equals(user)) {
+    @Path("getTotal")
+    @SuppressWarnings("unchecked")
+    public int getTotal() {
+        int total = 0;
+        basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-            for(Map.Entry<String, Integer> entry : basket.entrySet()) {
-                String key = entry.getKey();
-                Integer value = entry.getValue();
-
-                System.out.println(key + ":" + value);
+        for (Map.Entry<String, Integer> entry : basket.entrySet()) {
+            for (Item i : new CloudService().listItems(354)) {
+                if (i.getItemID() == Integer.parseInt(entry.getKey()) && i.getItemStock() > 0) {
+                    new Controller().adjustItemStock(i, -1);
+                    total += i.getItemPrice() * entry.getValue();
+                }
             }
-            return basket;
         }
-        else
-            return new HashMap<>();
+
+        return total;
     }
 
+
+    @GET
+    @Path("checkBasket")
+    @SuppressWarnings("unchecked")
+    public String checkBasket() {
+        String out = "";
+        ArrayList<Item> prodList = new CloudService().listItems(354);
+
+        basket = (HashMap<String, Integer>) session.getAttribute("basket");
+
+        if (basket != null) {
+            for (Map.Entry<String, Integer> entry : basket.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+                for (Item i : prodList) {
+                    if (i.getItemID() == Integer.parseInt(key) && i.getItemStock() > 0) {
+                        new Controller().adjustItemStock(i, -1);
+                        out += i.getItemName().substring(0, 27) + " x" + value;
+                    }
+                }
+            }
+            return out;
+        }
+
+        else
+            return "fail";
+    }
 
     @GET
     @Path("listShops")
@@ -99,16 +125,9 @@ public class ShopJAXRS {
 
 
     @POST
-    @Path("/checkSession")
-    public boolean checkSession() {
-        return session.getAttribute("sessionid") != null;
-    }
-
-
-    @POST
     @Path("/addtobasket")
     @SuppressWarnings("unchecked")
-    public void shopItem(@FormParam("id") String itemid) {
+    public String shopItem(@FormParam("id") String itemid) {
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
         if(basket == null)
@@ -119,7 +138,7 @@ public class ShopJAXRS {
         else
             basket.put(itemid, 1);
 
-        System.out.println(itemid + " er lagt i kurven (" + basket.get(itemid) + ")");
         session.setAttribute("basket", basket);
+        return session.getAttribute("sessionid").toString();
     }
 }
