@@ -1,15 +1,26 @@
 function purchase(itemid) {
-        sendRequest('POST', 'rest/shop/addtobasket', 'id=' + itemid, function(itemsText) {
-            window.alert(itemsText);
+    sendRequest('POST', 'rest/shop/addtobasket', 'id=' + itemid, function () {
+        sendRequest('GET', 'rest/shop/checkBasket', null, function (data) {
+            if(data == null || data == "fail")
+                window.alert("");
+            else {
+                document.getElementById("produkter").innerHTML = data;
+                getTotal();
+            }
         });
+    });
 }
 
-function updateBasket(buttonID, itemStock) {
-    var asd = document.getElementById(buttonID);
-    var counter = asd.textContent;
 
-    if (itemStock > counter && itemStock != 0)
-        counter++;
+function getTotal() {
+    sendRequest('GET', 'rest/shop/getTotal', null, function(data) {
+        document.getElementById("total").innerHTML = "Total <b>" + data + "</b> kr";
+    });
+}
 
-    asd.textContent = counter;
+
+function done() {
+    sendRequest('POST', 'rest/shop/done', null, null);
+    document.getElementById("produkter").innerHTML = "Her redirectes til betaling.. <br /><br />Køb gennemført<br />Kurven er tømt<br />Session sat til null";
+    document.getElementById("total").innerHTML = ""
 }
