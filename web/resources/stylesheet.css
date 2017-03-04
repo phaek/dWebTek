@@ -186,6 +186,76 @@ a:hover {
     padding: 2px 0 0;
 }
 
+
+/* Her kommer basket */
+#shopBasket {
+    height: 20%;
+    width: 20%;
+    background-color: #333333;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#shopBasket, #basket {
+    position: fixed;
+    right: 100px;
+    top: 220px;
+    width: 180px;
+    padding: 2em;
+
+    color: white;
+    font-family: "Segoe UI Light", sans-serif, Helvetica;
+}
+
+#overskrift {
+    position: fixed;
+    top: 230px;
+    right: 180px;
+    font-weight: bolder;
+}
+
+#produkter {
+    position: fixed;
+    top: 270px;
+    right: 115px;
+    font-weight: 500;
+}
+
+#buyShit {
+    position: fixed;
+    top: 430px;
+    right: 250px;
+    width: 70px;
+    height: 30px;
+    -moz-box-shadow:inset 0 34px 0 -15px #808080;
+    -webkit-box-shadow:inset 0 34px 0 -15px #808080;
+    box-shadow:inset 0 34px 0 -15px #808080;
+    background-color:#6e6e6e;
+    border:1px solid #241d13;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family: "Segoe UI Light", sans-serif, Helvetica;
+    font-size:15px;
+    font-weight:bold;
+    padding:5px 20px;
+    text-decoration:none;
+    text-shadow:0 -1px 0 #3d3d3d;
+}
+
+#buyShit:hover {
+    background-color:#858285;
+
+}
+
+#total {
+    position: fixed;
+    top: 430px;
+    right: 120px;
+}
+/* Her slutter basket */
+
+
 #jumbotronelements {
     height: auto;
     color: black;
