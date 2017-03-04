@@ -50,7 +50,7 @@ public class Controller {
 
 
 
-    public String adjustItemStock(Item item, int stock) throws IOException {
+    public String adjustItemStock(Item item, int stock) {
         String result = null;
 
         Element root = new Element("adjustItemStock", NS);
@@ -60,7 +60,12 @@ public class Controller {
         Document doc = new Document(root);
 
         if (new CloudService().validate(doc).isSuccess()) {
-            result = new CloudService().postit(baseURL+"/adjustItemStock", doc);
+            try {
+                result = new CloudService().postit(baseURL + "adjustItemStock", doc);
+            }
+            catch (Exception e) {
+                System.out.println("Fejl i adjustItemStock" + e);
+            }
         }
         return result;
     }
