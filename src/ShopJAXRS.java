@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ public class ShopJAXRS {
     private HttpSession session;
     private CloudService service = new CloudService();
     private Gson gson = new Gson();
+    private HashMap<String, Integer> basket;
 
 
     public ShopJAXRS(@Context HttpServletRequest request) {
@@ -29,11 +31,11 @@ public class ShopJAXRS {
     @POST
     @Path("login")
     public String login(@FormParam("username") String username, @FormParam("password") String password) {
-        if(session.isNew())
-            session.setAttribute("sessionid", username);
-        return "Korrekt login: " + username; //Burde virkelig opsætte faces korrekt..
-    }
+        session.setAttribute("sessionid", username);
+        System.out.println(username + " er er logget ind");
 
+        return "Brugernavn: " + session.getAttribute("sessionid");
+    }
 
     @GET
     @Path("/loggedIn")
@@ -72,17 +74,27 @@ public class ShopJAXRS {
 
 
     @GET
-    @Path("listShops")
-    public String listShops() {
-        return gson.toJson(new CloudService().listShops());
+    @Path("/checkBasket/{userid}")
+    public HashMap<String, Integer> checkBasket(@PathParam("userid") String user) {
+        if (session.getAttribute("sessionid").equals(user)) {
+
+            for(Map.Entry<String, Integer> entry : basket.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+
+                System.out.println(key + ":" + value);
+            }
+            return basket;
+        }
+        else
+            return new HashMap<>();
     }
 
 
-    @POST
-    @Path("/basket")
-    public void addToBasket(@FormParam("itemid") String itemID) {
-        shopItem(itemID);
-        System.out.println("addToBasket: " + session.getAttribute("basket"));
+    @GET
+    @Path("listShops")
+    public String listShops() {
+        return gson.toJson(new CloudService().listShops());
     }
 
 
@@ -94,19 +106,20 @@ public class ShopJAXRS {
 
 
     @POST
-    @Path("/shopItem")
+    @Path("/addtobasket")
     @SuppressWarnings("unchecked")
-    public void shopItem(String input) {
-        HashMap<String, Integer> basket = (HashMap<String, Integer>) session.getAttribute("basketHashMap");
+    public void shopItem(@FormParam("id") String itemid) {
+        basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
         if(basket == null)
             basket = new HashMap<>();
 
-        if (basket.containsKey(input))
-            basket.put(input, basket.get(input) +1);
+        if (basket.containsKey(itemid))
+            basket.put(itemid, basket.get(itemid) +1);
         else
-            basket.put(input, 1);
+            basket.put(itemid, 1);
 
+        System.out.println(itemid + " er lagt i kurven (" + basket.get(itemid) + ")");
         session.setAttribute("basket", basket);
     }
 }

@@ -1,5 +1,5 @@
-function purchase() {
-        sendRequest('POST', 'rest/shop/basket', 'id=51116', function(itemsText) {
+function purchase(itemid) {
+        sendRequest('POST', 'rest/shop/addtobasket', 'id=' + itemid, function(itemsText) {
             window.alert(itemsText);
         });
 }
