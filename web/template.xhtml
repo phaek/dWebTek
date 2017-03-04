@@ -42,7 +42,7 @@
                         <h:commandLink action="#{userBean.logout}" value="Log ud" />
                     </c:when>
                     <c:otherwise>
-                        <a href="" onclick="login('admin', 'kode')">Log ind</a>
+                        <a onclick="login('admin', 'kode')" style="cursor: hand">Log ind</a>
                         <!--<a href="admin/login.jsf">Log ind</a>-->
                     </c:otherwise>
                 </c:choose>
@@ -74,6 +74,14 @@
     <select name="shops" id="shops"  title="shoplist" onchange="handleProducts()" />
 </div>
 
+<div id="shopBasket">
+    <div id="basket">
+        <div id="overskrift">Indkøbskurv</div>
+        <div id="produkter"></div>
+        <button id="buyShit" onclick="done()">Køb</button>
+        <div id="total">Total <strong>0</strong> kr</div>
+    </div>
+</div>
 <div id="jumbotron">
     <div id="jumbotronelements">
         <div id="jumbotronDiv">
