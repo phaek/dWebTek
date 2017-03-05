@@ -69,9 +69,8 @@ public class ShopJAXRS {
     public void done() {
 
         Controller con = new Controller();
-        basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-        for (Map.Entry<String, Integer> entry : basket.entrySet())
+        for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
             for (Item i : prodList)
                 if (i.getItemID() == Integer.parseInt(entry.getKey()))
                     con.adjustItemStock(i.getItemID(), -entry.getValue());
@@ -96,9 +95,8 @@ public class ShopJAXRS {
     @SuppressWarnings("unchecked")
     public int getTotal() {
         int total = 0;
-        basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-        for (Map.Entry<String, Integer> entry : basket.entrySet())
+        for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
             for (Item i : prodList)
                 if (i.getItemID() == Integer.parseInt(entry.getKey()) && i.getItemStock() > 0)
                     total += i.getItemPrice() * entry.getValue();
