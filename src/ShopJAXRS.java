@@ -21,12 +21,13 @@ public class ShopJAXRS {
     private CloudService service = new CloudService();
     private Gson gson = new Gson();
     private HashMap<String, Integer> basket;
+    private HashMap<String, Integer> cachedProdList;
+    private ArrayList<Item> prodList = service.listItems(354);
 
 
     public ShopJAXRS(@Context HttpServletRequest request) {
         session = request.getSession();
     }
-
 
     @POST
     @Path("login")
@@ -37,18 +38,6 @@ public class ShopJAXRS {
         return "Brugernavn: " + session.getAttribute("sessionid");
     }
 
-
-    /*
-
-
-
-        Burde måske lave en bool-version af loggedIn til simple checks...
-
-
-
-
-     */
-
     @POST
     @Path("logout")
     public void logout() {
@@ -58,9 +47,10 @@ public class ShopJAXRS {
     @POST
     @Path("done")
     public void done() {
-        basket.clear();
-        basket = null;
-        session.setAttribute("sessionid", null);
+        //TODO: adjustItemStock for hvert key:value-par i basket
+        session.setAttribute("cachedProdList", null);
+        session.setAttribute("basket", null);
+        System.out.println("Køb gennemført; kurv nulstillet");
     }
 
 
@@ -79,9 +69,8 @@ public class ShopJAXRS {
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
         for (Map.Entry<String, Integer> entry : basket.entrySet()) {
-            for (Item i : new CloudService().listItems(354)) {
+            for (Item i : prodList) {
                 if (i.getItemID() == Integer.parseInt(entry.getKey()) && i.getItemStock() > 0) {
-                    new Controller().adjustItemStock(i, -1);
                     total += i.getItemPrice() * entry.getValue();
                 }
             }
@@ -96,31 +85,26 @@ public class ShopJAXRS {
     @SuppressWarnings("unchecked")
     public String checkBasket() {
         String out = "";
-        ArrayList<Item> prodList = new CloudService().listItems(354);
-
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-        if (basket != null) {
-            for (Map.Entry<String, Integer> entry : basket.entrySet()) {
-                String key = entry.getKey();
-                Integer value = entry.getValue();
-                for (Item i : prodList) {
-                    if (i.getItemID() == Integer.parseInt(key) && i.getItemStock() > 0) {
-                        new Controller().adjustItemStock(i, -1);
-                        out += i.getItemName().substring(0, 27) + " x" + value;
-                    }
-                }
-            }
-            return out;
+
+        for (Map.Entry<String, Integer> entry : basket.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+
+            for (Item i : prodList)
+                if (Integer.toString(i.getItemID()).equals(key))
+                    out += "<b>" + i.getItemName() + "</b> x" + value + "<br />";
         }
 
-        else
-            return "fail";
+        return out;
     }
+
 
     @GET
     @Path("listShops")
     public String listShops() {
+
         return gson.toJson(new CloudService().listShops());
     }
 
@@ -130,16 +114,36 @@ public class ShopJAXRS {
     @SuppressWarnings("unchecked")
     public String shopItem(@FormParam("id") String itemid) {
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
+        cachedProdList = (HashMap<String, Integer>) session.getAttribute("cachedProdList");
 
-        if(basket == null)
+        if(basket == null) {
             basket = new HashMap<>();
+        }
 
-        if (basket.containsKey(itemid))
-            basket.put(itemid, basket.get(itemid) +1);
-        else
+        if(cachedProdList == null) {
+            cachedProdList = new HashMap<>();
+
+            for (Item i : prodList) {
+                cachedProdList.put(Integer.toString(i.getItemID()), i.getItemStock());
+            }
+        }
+
+        /* Check */
+
+        if (basket.containsKey(itemid) && cachedProdList.get(itemid) > 0) {
+            basket.put(itemid, basket.get(itemid) + 1);
+            cachedProdList.put(itemid, cachedProdList.get(itemid) -1);
+        }
+        else if (cachedProdList.get(itemid) > 0) {
             basket.put(itemid, 1);
+            cachedProdList.put(itemid, cachedProdList.get(itemid) -1);
+        }
+        else
+            System.out.println("Varen (" + itemid + ") er ikke på lager :(");
 
+        session.setAttribute("cachedProdList", cachedProdList);
         session.setAttribute("basket", basket);
+
         return session.getAttribute("sessionid").toString();
     }
 }
