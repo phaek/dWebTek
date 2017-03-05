@@ -41,7 +41,7 @@ public class ModifyBean {
     }
 
     public String adjustStock(int stock) {
-        new Controller().adjustItemStock(item, stock);
+        new Controller().adjustItemStock(item.getItemID(), stock);
         shopBean.rebuildProdList();
 
         return "modifyItem";
