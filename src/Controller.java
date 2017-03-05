@@ -50,12 +50,12 @@ public class Controller {
 
 
 
-    public String adjustItemStock(Item item, int stock) {
+    public String adjustItemStock(int itemid, int stock) {
         String result = null;
 
         Element root = new Element("adjustItemStock", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
-        root.addContent(new Element("itemID", NS).setText(String.valueOf(item.getItemID())));
+        root.addContent(new Element("itemID", NS).setText(String.valueOf(itemid)));
         root.addContent(new Element("adjustment", NS).setText(String.valueOf(stock)));
         Document doc = new Document(root);
 
