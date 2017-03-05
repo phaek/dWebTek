@@ -68,13 +68,10 @@ public class ShopJAXRS {
         int total = 0;
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-        for (Map.Entry<String, Integer> entry : basket.entrySet()) {
-            for (Item i : prodList) {
-                if (i.getItemID() == Integer.parseInt(entry.getKey()) && i.getItemStock() > 0) {
+        for (Map.Entry<String, Integer> entry : basket.entrySet())
+            for (Item i : prodList)
+                if (i.getItemID() == Integer.parseInt(entry.getKey()) && i.getItemStock() > 0)
                     total += i.getItemPrice() * entry.getValue();
-                }
-            }
-        }
 
         return total;
     }
