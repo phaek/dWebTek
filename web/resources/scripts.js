@@ -34,6 +34,11 @@ $(document).keypress(function (e) {
     }
 });
 
+
+function addStock(itemid, stock) {
+    sendRequest('POST', 'rest/shop/addStock', 'itemid=' + itemid + '&stock=' + stock, null);
+}
+
 /*
 
 /**
