@@ -22,11 +22,6 @@ function handleProducts() {
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
-
-        //Tjek til om 'purchase(itemid)' skal vises ved produkterne eller ej //TODO: fix it
-        if(document.getElementById("shops").value == 354) {
-            document.getElementById("purchaseBtn").style.display='inline';
-        }
     });
 }
 

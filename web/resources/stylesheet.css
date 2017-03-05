@@ -245,6 +245,10 @@ a:hover {
     text-shadow:0 -1px 0 #3d3d3d;
 }
 
+#purchaseBtn:hover {
+    background-color:#858285;
+}
+
 #buyShit {
     position: fixed;
     top: 430px;
@@ -269,7 +273,6 @@ a:hover {
 
 #buyShit:hover {
     background-color:#858285;
-
 }
 
 #total {
