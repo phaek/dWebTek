@@ -127,10 +127,19 @@ a:hover {
     text-decoration: none;
     text-align: right;
     display: block;
+    cursor:pointer;
 }
 
 .dropdown-content a:hover {
     background-color: #f1f1f1;
+}
+
+.dropdownField {
+    display: block;
+    position: inherit;
+    background-color: white;
+    width: 97%;
+    z-index: 1;
 }
 
 #user:hover .dropdown-content {
