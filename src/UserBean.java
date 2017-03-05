@@ -35,7 +35,7 @@ public class UserBean{
     public UserBean() {
     }
 
-    private String md5crypt(String in) {
+    public String md5crypt(String in) {
         try {
             return Arrays.toString(MessageDigest.getInstance("MD5").digest(in.getBytes()));
         } catch (Exception e) {
@@ -46,8 +46,6 @@ public class UserBean{
     }
 
     public String createCustomer(String name, String pass) {
-
-        String result = null;
 
         Element root = new Element("createCustomer", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
@@ -60,14 +58,14 @@ public class UserBean{
                 customerList = new CloudService().listCustomers(354);
                 for (Customer c : customerList)
                     if (c.getCustomerName().equals(username))
-                        return "login";
+                        return "user";
                     else {
                         String res = new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL + "createCustomer", doc))).getRootElement().getValue();
                         isNew = true;
                         isNewMessage = "Du er oprettet som ny bruger! Brugernavn: " + username + " og ID: " + res;
 
                         setLoggedin(true);
-                        return "admin";
+                        return "new";
                     }
             } catch (IOException | JDOMException e) {
                 e.printStackTrace();
@@ -87,7 +85,7 @@ public class UserBean{
             isadmin = true;
             loggedin = true;
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isoauth", true); //Et lille hack; swap ud når admin-sessions er implementeret
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", "au554760");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", username);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loggedin", true);
             return "admin";
         } else if (!username.isEmpty() && !password.isEmpty()){
@@ -97,7 +95,7 @@ public class UserBean{
             for (Customer c : customerList)
                 if (c.getCustomerName().equals(username)) {
                     setLoggedin(true);
-                    return "OK";
+                    return "user";
                 }
             return "login";
         }
