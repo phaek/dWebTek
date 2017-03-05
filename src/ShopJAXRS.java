@@ -47,9 +47,11 @@ public class ShopJAXRS {
 
     @POST
     @Path("logout")
-    public void logout() {
+    public String logout() {
         session.setAttribute("sessionid", null);
         session.setAttribute("usertype", null);
+
+        return "Du er nu logget ud";
     }
 
 
