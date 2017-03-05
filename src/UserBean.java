@@ -45,7 +45,24 @@ public class UserBean{
         return "Kan ikke hashe null";
     }
 
-    public String createCustomer(String name, String pass) {
+    public String createCustomerClean(String uname, String pword) {
+        Element root = new Element("createCustomer", NS);
+        root.addContent(new Element("shopKey", NS).setText(key));
+        root.addContent(new Element("customerName", NS).setText(uname));
+        root.addContent(new Element("customerPass", NS).setText(pword));
+        Document doc = new Document(root);
+
+        if (new CloudService().validate(doc).isSuccess()) {
+            try {
+                return new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL + "createCustomer", doc))).getRootElement().getValue();
+            } catch (JDOMException | IOException e) {
+                System.out.printf("Oprettelse af bruger fejlede :( " + e);
+            }
+        }
+        return "fail";
+    }
+
+        public String createCustomer(String name, String pass) {
 
         Element root = new Element("createCustomer", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
