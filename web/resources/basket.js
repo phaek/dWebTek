@@ -2,7 +2,7 @@ function purchase(itemid) {
     sendRequest('POST', 'rest/shop/addtobasket', 'id=' + itemid, function () {
         sendRequest('GET', 'rest/shop/checkBasket', null, function (data) {
             if(data == null || data == "fail")
-                window.alert("");
+                document.getElementById("produkter").innerHTML = "We dun goof'd";
             else {
                 document.getElementById("produkter").innerHTML = data;
                 getTotal();
