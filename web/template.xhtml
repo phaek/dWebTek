@@ -6,7 +6,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
     <h:outputScript name="getter.js" />
@@ -42,9 +43,10 @@
                         <h:commandLink action="#{userBean.logout}" value="Log ud" />
                     </c:when>
                     <c:otherwise>
-                        <input type="text" id="usernamefield"> </input>
-                        <input type="password" id="passwordfield"> </input>
+                        <input type="text" id="usernamefield" class="dropdownField" placeholder="Brugernavn.." />
+                        <input type="password" id="passwordfield" class="dropdownField" placeholder="Kodeord.." />
                         <a id="login" onclick="login()">Log ind</a>
+                        <a id="logout" onclick="logout()" style="display: none">logout</a>
                     </c:otherwise>
                 </c:choose>
             </h:form>
