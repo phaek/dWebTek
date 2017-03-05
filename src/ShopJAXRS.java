@@ -21,8 +21,8 @@ public class ShopJAXRS {
     private CloudService service = new CloudService();
     private Gson gson = new Gson();
     private HashMap<String, Integer> basket;
-    private HashMap<String, Integer> cachedProdList;
     private ArrayList<Item> prodList = service.listItems(354);
+    private String[] admin = {"phaek", "password"};
 
 
     public ShopJAXRS(@Context HttpServletRequest request) {
@@ -32,17 +32,26 @@ public class ShopJAXRS {
     @POST
     @Path("login")
     public String login(@FormParam("username") String username, @FormParam("password") String password) {
+        UserBean ubean = new UserBean();
         session.setAttribute("sessionid", username);
-        System.out.println(username + " er er logget ind");
 
-        return "Brugernavn: " + session.getAttribute("sessionid");
+        for (Customer c : service.listCustomers(354))
+            if(c.getCustomerName().equals(username))
+                session.setAttribute("usertype", "user");
+
+        if(ubean.md5crypt(username).equals(ubean.md5crypt(admin[0])) && ubean.md5crypt(password).equals(ubean.md5crypt(admin[1])))
+            session.setAttribute("usertype", "admin");
+
+        return "Brugernavn: " + session.getAttribute("sessionid") + " (" + session.getAttribute("usertype") +")";
     }
 
     @POST
     @Path("logout")
     public void logout() {
         session.setAttribute("sessionid", null);
+        session.setAttribute("usertype", null);
     }
+
 
     @POST
     @Path("done")
@@ -105,7 +114,7 @@ public class ShopJAXRS {
     @SuppressWarnings("unchecked")
     public String shopItem(@FormParam("id") String itemid) {
         basket = (HashMap<String, Integer>) session.getAttribute("basket");
-        cachedProdList = (HashMap<String, Integer>) session.getAttribute("cachedProdList");
+        HashMap<String, Integer> cachedProdList = (HashMap<String, Integer>) session.getAttribute("cachedProdList");
 
         if(basket == null) {
             basket = new HashMap<>();
