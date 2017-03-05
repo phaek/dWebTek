@@ -82,17 +82,11 @@ public class ShopJAXRS {
     @SuppressWarnings("unchecked")
     public String checkBasket() {
         String out = "";
-        basket = (HashMap<String, Integer>) session.getAttribute("basket");
 
-
-        for (Map.Entry<String, Integer> entry : basket.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-
+        for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
             for (Item i : prodList)
-                if (Integer.toString(i.getItemID()).equals(key))
-                    out += "<b>" + i.getItemName() + "</b> x" + value + "<br />";
-        }
+                if (Integer.toString(i.getItemID()).equals(entry.getKey()))
+                    out += "<b>" + i.getItemName() + "</b> x" + entry.getValue() + "<br />";
 
         return out;
     }
