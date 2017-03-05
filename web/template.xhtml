@@ -42,8 +42,9 @@
                         <h:commandLink action="#{userBean.logout}" value="Log ud" />
                     </c:when>
                     <c:otherwise>
-                        <a onclick="login('admin', 'kode')" style="cursor: hand">Log ind</a>
-                        <!--<a href="admin/login.jsf">Log ind</a>-->
+                        <input type="text" id="usernamefield"> </input>
+                        <input type="password" id="passwordfield"> </input>
+                        <a id="login" onclick="login()">Log ind</a>
                     </c:otherwise>
                 </c:choose>
             </h:form>
