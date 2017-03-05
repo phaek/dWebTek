@@ -24,3 +24,15 @@ function done() {
     document.getElementById("produkter").innerHTML = "Her redirectes til betaling.. <br /><br />Køb gennemført<br />Kurven er tømt<br />Session sat til null";
     document.getElementById("total").innerHTML = ""
 }
+
+
+function loadOnReady() {
+    sendRequest('GET', 'rest/shop/checkBasket', null, function (data) {
+        if(data == null || data == "fail")
+            document.getElementById("produkter").innerHTML = "asdds";
+        else {
+            document.getElementById("produkter").innerHTML = data;
+            getTotal();
+        }
+    });
+}
