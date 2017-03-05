@@ -6,7 +6,7 @@ function handleProducts() {
 
         for (var prodKey in prodList)
             prodhtml +=
-                "<div style='height: auto; width: 300px; background-color: white; display: inline-flex; margin-right: 10px'>" + //Start produktdiv og tilføj style
+                "<div style='height: auto; width: 300px; background-color: white; display: inline-flex; margin-right: 10px; position: relative'>" + //Start produktdiv og tilføj style
 
                     "<a href='" + prodList[prodKey]["itemURL"] +"' style='background-color:white'>" +
                         "<p class='prodNavn'>" +
@@ -18,7 +18,7 @@ function handleProducts() {
                         "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "" +
                         "</div>" +
                     "</a>" + //Produkbilleder fra hver URL
-                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")' style='color: #2e3237; height: 20px; width: 50px; position: absolute; left: inherit + 50px'>Køb</button>" +
+                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")'>Køb</button>" +
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
