@@ -14,7 +14,7 @@ public class Filter implements javax.servlet.Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        /* try {
+        try {
             if (Boolean.TRUE.equals(((HttpServletRequest) request).getSession().getAttribute("isoauth")) && (((HttpServletRequest) request).getSession().getAttribute("username").equals("au554760") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au554107") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au553122") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au523910")))
                 filterChain.doFilter(request, response);
             else {
@@ -27,7 +27,7 @@ public class Filter implements javax.servlet.Filter {
             }
         } catch (Exception e) {
             System.out.println("Filterfejl: " + e.getMessage());
-        } */
+        }
 
         filterChain.doFilter(request, response);
     }
