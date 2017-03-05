@@ -29,6 +29,14 @@ public class ShopJAXRS {
         session = request.getSession();
     }
 
+
+    @POST
+    @Path("addStock")
+    public void addStock(@FormParam("itemid") int itemid, @FormParam("stock") int stock) {
+        new Controller().adjustItemStock(itemid, stock);
+    }
+
+
     @POST
     @Path("login")
     public String login(@FormParam("username") String username, @FormParam("password") String password) {
@@ -57,8 +65,19 @@ public class ShopJAXRS {
 
     @POST
     @Path("done")
+    @SuppressWarnings("unchecked")
     public void done() {
-        //TODO: adjustItemStock for hvert key:value-par i basket
+
+        Controller con = new Controller();
+        basket = (HashMap<String, Integer>) session.getAttribute("basket");
+
+        for (Map.Entry<String, Integer> entry : basket.entrySet())
+            for (Item i : prodList)
+                if (i.getItemID() == Integer.parseInt(entry.getKey()))
+                    con.adjustItemStock(i.getItemID(), -entry.getValue());
+
+
+
         session.setAttribute("cachedProdList", null);
         session.setAttribute("basket", null);
         System.out.println("Køb gennemført; kurv nulstillet");
