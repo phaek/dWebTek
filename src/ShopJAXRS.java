@@ -43,12 +43,16 @@ public class ShopJAXRS {
         UserBean ubean = new UserBean();
         session.setAttribute("sessionid", username);
 
+
         for (Customer c : service.listCustomers(354))
             if(c.getCustomerName().equals(username))
                 session.setAttribute("usertype", "user");
 
         if(ubean.md5crypt(username).equals(ubean.md5crypt(admin[0])) && ubean.md5crypt(password).equals(ubean.md5crypt(admin[1])))
             session.setAttribute("usertype", "admin");
+        else {
+            return "Velkommen " + username + ", du er oprettet som ny bruger med id " + ubean.createCustomerClean(username, password) + " :)";
+        }
 
         return "Brugernavn: " + session.getAttribute("sessionid") + " (" + session.getAttribute("usertype") +")";
     }
