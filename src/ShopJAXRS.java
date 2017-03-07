@@ -11,7 +11,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -26,10 +25,10 @@ public class ShopJAXRS {
 
     private HttpSession session;
     private CloudService service = new CloudService();
-    private Gson gson = new Gson();
     private HashMap<String, Integer> basket;
     private ArrayList<Item> prodList = service.listItems(354);
     private String[] admin = {"admin", "password"};
+    private Gson gson = new Gson();
 
 
     public ShopJAXRS(@Context HttpServletRequest request) {
@@ -92,15 +91,12 @@ public class ShopJAXRS {
     @Path("done")
     @SuppressWarnings("unchecked")
     public void done() {
-
         Controller con = new Controller();
 
         for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
             for (Item i : prodList)
                 if (i.getItemID() == Integer.parseInt(entry.getKey()))
                     con.adjustItemStock(i.getItemID(), -entry.getValue());
-
-
 
         session.setAttribute("cachedProdList", null);
         session.setAttribute("basket", null);
@@ -110,8 +106,7 @@ public class ShopJAXRS {
     @GET
     @Path("/listShopItems/{shopID}")
     public String listItems(@PathParam("shopID") int shopID) {
-        ArrayList<Item> prodList = service.listItems(shopID);
-        return gson.toJson(prodList);
+        return gson.toJson(service.listItems(shopID));
     }
 
     @GET
@@ -184,8 +179,9 @@ public class ShopJAXRS {
             basket.put(itemid, 1);
             cachedProdList.put(itemid, cachedProdList.get(itemid) -1);
         }
-        else
-            System.out.println("Varen (" + itemid + ") er ikke på lager :(");
+        else {
+            return itemid + " er udsolgt";
+        }
 
         session.setAttribute("cachedProdList", cachedProdList);
         session.setAttribute("basket", basket);
