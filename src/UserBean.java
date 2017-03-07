@@ -25,7 +25,6 @@ public class UserBean{
     private boolean loggedin;
     private static final Namespace NS = Namespace.getNamespace("http://www.cs.au.dk/dWebTek/2014");
     private static final String key = "BA2F22BE812D783D22B8EA5E";
-    private static final String baseURL = "http://webtek.cs.au.dk/cloud/";
     private ArrayList<Customer> customerList = new ArrayList<>();
     private boolean isNew = false;
     private String isNewMessage = "";
@@ -45,18 +44,18 @@ public class UserBean{
         return "Kan ikke hashe null";
     }
 
-    public String createCustomerClean(String uname, String pword) {
+    public String createCustomerClean(String uname2, String pword2) {
         Element root = new Element("createCustomer", NS);
         root.addContent(new Element("shopKey", NS).setText(key));
-        root.addContent(new Element("customerName", NS).setText(uname));
-        root.addContent(new Element("customerPass", NS).setText(pword));
+        root.addContent(new Element("customerName", NS).setText(uname2));
+        root.addContent(new Element("customerPass", NS).setText(pword2));
         Document doc = new Document(root);
 
         if (new CloudService().validate(doc).isSuccess()) {
             try {
-                return new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL + "createCustomer", doc))).getRootElement().getValue();
+                return new SAXBuilder().build(new StringReader(new CloudService().postit("http://webtek.cs.au.dk/cloud/createCustomer", doc))).getRootElement().getValue();
             } catch (JDOMException | IOException e) {
-                System.out.printf("Oprettelse af bruger fejlede :( " + e);
+                System.out.printf("Oprettelse af bruger fejlede :( " + e.getMessage());
             }
         }
         return "fail";
@@ -77,7 +76,7 @@ public class UserBean{
                     if (c.getCustomerName().equals(username))
                         return "user";
                     else {
-                        String res = new SAXBuilder().build(new StringReader(new CloudService().postit(baseURL + "createCustomer", doc))).getRootElement().getValue();
+                        String res = new SAXBuilder().build(new StringReader(new CloudService().postit("http://webtek.cs.au.dk/cloud/createCustomer", doc))).getRootElement().getValue();
                         isNew = true;
                         isNewMessage = "Du er oprettet som ny bruger! Brugernavn: " + username + " og ID: " + res;
 
@@ -88,7 +87,7 @@ public class UserBean{
                 e.printStackTrace();
             }
         }
-        return null;
+        return "fail";
     }
 
 
