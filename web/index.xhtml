@@ -1,17 +1,120 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                template="template.xhtml">
-    <h:head>
-        <h:outputStylesheet name="stylesheet.css" />
-    </h:head>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <h3>Jeg er index.html gennem 'core'</h3>
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <h:outputScript name="getter.js" />
+    <link rel="stylesheet" type="text/css" href="resources/stylesheet.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type=""></script>
+    <script type="text/javascript" src="resources/listShops.js"> </script>
+    <script type="text/javascript" src="resources/scripts.js"> </script>
+    <script type="text/javascript" src="resources/basket.js"> </script>
+    <script type="text/javascript" src="resources/getter.js"> </script>
+    <script type="text/javascript" src="resources/login.js"> </script>
 
+    <title>Kameraudstyr</title>
+</h:head>
+<body>
 
-    <ui:define name="core">
-        /* stuff */
-    </ui:define>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span><br />
+        <h3 style="text-align: center">Log ind på Kameraudstyr</h3><br />
+        <input type="text" id="usernamefield" placeholder="Brugernavn.." /><br />
+        <input type="password" id="passwordfield" placeholder="Kodeord.." /><br /><br /><br />
+        <button id="login" onclick="login()">Log ind</button>
+        <button id="createUser" onclick="createCustomer()">Create</button> <br />
+    </div>
+</div>
 
-</ui:composition>
+<div id="header">
+    <div class="headerelement" id="logo">
+        <a href="">
+            <img src="http://i.imgur.com/xH9nGKj.png" alt="logo"/>
+        </a>
+    </div>
+    <div class="headerelement" id="searchbar">
+        <input id="searchfield" type="text" name="search" title=""/>
+    </div>
+
+    <div class="headerelement" id="user">
+        <button id='userbtn'>Login &#xE13D;</button>
+        <div class="dropdown-content">
+            <a id="logout" onclick="logout()" style="display: none">logout</a>
+        </div>
+    </div>
+</div>
+<c:choose>
+    <c:when test="#{shopBean.shop.shopID == 354}">
+        <div id="menu">
+            <div id="menuelements">
+                <ul>
+                    <li><a href="#">Lyssætning</a></li>
+                    <li><a href="#">Stabilizer</a></li>
+                    <li><a href="#">Objektiver</a></li>
+                    <li><a href="#">Stativer</a></li>
+                    <li><a href="#">Kabler</a></li>
+                    <li><a href="#">Monitorer</a></li>
+                </ul>
+            </div>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <h3>Ingen shop er valgt :(</h3>
+    </c:otherwise>
+</c:choose>
+
+<div id="shopselec">
+    <select name="shops" id="shops"  title="shoplist" onchange="handleProducts()" />
+</div>
+
+<div id="shopBasket">
+    <div id="basket">
+        <div id="overskrift">Indkøbskurv</div>
+        <div id="produkter">Indkøbskurv kræver login</div>
+        <button id="buyShit" onclick="done()">Kassen</button>
+        <div id="total">Total <strong>0</strong> kr</div>
+    </div>
+</div>
+<div id="jumbotron">
+    <div id="jumbotronelements">
+        <div id="jumbotronDiv">
+            <p id="jumbotron_p" />
+        </div>
+        <div id="produktDiv">
+        </div>
+    </div>
+</div>
+
+<div id="footer">
+    <div id="footerelements">
+        <p><a href="mailto:au554760@uni.au.dk">Phaek | Aarhus Universitet | © 2017</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.onload=loadshops();
+
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById('userbtn');
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
