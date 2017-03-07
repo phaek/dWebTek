@@ -115,6 +115,9 @@ public class ShopJAXRS {
     public String checkBasket() {
         String out = "";
 
+        if(session.getAttribute("sessionid") == null || session.getAttribute("sessionid").equals(""))
+            return "NOSESSION";
+
         for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
             for (Item i : prodList)
                 if (Integer.toString(i.getItemID()).equals(entry.getKey()))
