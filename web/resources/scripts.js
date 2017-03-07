@@ -1,6 +1,10 @@
 var products = [];
 var map;
 
+/**
+ * Grabs a JSON object of products of any given webshop and generates HTML based on that
+ * Works for any shop complaint to cloud.xsd
+ */
 function handleProducts() {
     sendRequest('GET', 'rest/shop/listShopItems/' + document.getElementById("shops").value, null, function(prodData) {
         var prodhtml = "";
@@ -30,6 +34,9 @@ function handleProducts() {
     });
 }
 
+/**
+ * Sets visiblity of "Køb" buttons when the selected shop is ours
+ */
 function showBtn() {
     if (document.getElementById("shops").value == 354) {
         var btns = document.getElementsByClassName("purchaseBtn");
@@ -61,7 +68,7 @@ function searchBarSearch(searchWord) {
     var prodhtml = "";
 
     for (var i in products)
-        if (products[i]["itemName"].length > 5 && (products[i]["itemName"].toLowerCase().includes(q)))
+        if (products[i]["itemName"].length >= 0 && (products[i]["itemName"].toLowerCase().includes(q)))
             map.push(products[i]);
 
     for (var i2 in map) {
@@ -84,5 +91,8 @@ function searchBarSearch(searchWord) {
         document.getElementById("produktDiv").innerHTML = prodhtml;
     }
 
-    document.getElementById('jumbotron_p').innerText = "Map.size: " + map.length + ", products.length: " + products.length;
+    if(map.length < products.length)
+        document.getElementById('jumbotron_p').innerHTML = "Søgeord " + q.bold() + " gav " + (map.length).toString().bold() + " søgeresultater";
+    else
+        document.getElementById('jumbotron_p').innerText = "";
 }
