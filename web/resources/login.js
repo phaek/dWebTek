@@ -1,5 +1,7 @@
+/**
+ * Handles the pre-call of login; ensures no blank inputs. Also sets HTML elements' visibility based on user state
+ */
 function login() {
-    console.log("Login er triggered");
     if ((document.getElementById("usernamefield").value != null) && (document.getElementById("passwordfield").value != null)) {
         sendRequest("POST", "rest/shop/login?username=" + document.getElementById("usernamefield").value + "&password=" + document.getElementById("passwordfield").value, null, function (data) {
             if (data != "FAIL") {
@@ -21,6 +23,9 @@ function login() {
 }
 
 
+/**
+ * Handles the logging out by doing a server call and setting visibility back on elements pertaining to login
+ */
 function logout() {
     sendRequest("POST", "rest/shop/logout", null, function(data) {
         window.alert(data);
@@ -38,7 +43,10 @@ function logout() {
     document.getElementById('userbtn').innerHTML="Login &#xE13D;";
 }
 
-
+/**
+ * Creates a customer based on input fields of login modal. Checks for blank inputs.
+ * Automatically logs new users in.
+ */
 function createCustomer() {
     if ((document.getElementById("usernamefield").value != null) && (document.getElementById("passwordfield").value != null)) {
         sendRequest("POST", "rest/shop/createCustomer", 'username=' + document.getElementById("usernamefield").value + '&password=' + document.getElementById("passwordfield").value, function (data) {
