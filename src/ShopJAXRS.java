@@ -29,7 +29,7 @@ public class ShopJAXRS {
     private Gson gson = new Gson();
     private HashMap<String, Integer> basket;
     private ArrayList<Item> prodList = service.listItems(354);
-    private String[] admin = {"phaek", "password"};
+    private String[] admin = {"admin", "password"};
 
 
     public ShopJAXRS(@Context HttpServletRequest request) {
