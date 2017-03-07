@@ -96,6 +96,28 @@ class CloudService {
     }
 
 
+    public String login(String username, String password) {
+
+        String result = "";
+
+        Element root = new Element("login", NS);
+        root.addContent(new Element("customerName", NS).setText(String.valueOf(username)));
+        root.addContent(new Element("customerPass", NS).setText(String.valueOf(password)));
+        Document doc = new Document(root);
+
+        if (new CloudService().validate(doc).isSuccess()) {
+            try {
+                result = postit("http://webtek.cs.au.dk/cloud/login", doc);
+            }
+            catch (Exception e) {
+                System.out.println("Fejl i login: " + e);
+            }
+        }
+
+        return result;
+    }
+
+
     /**
      * Converts itemDescription into a more intelligible composition that supports HTML formatting
      */
