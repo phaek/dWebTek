@@ -62,7 +62,7 @@ public class ShopJAXRS {
                     username = doc.getRootElement().getDescendants(new ElementFilter("customerName")).next().getValue();
                         session.setAttribute("usertype", "user");
                         session.setAttribute("sessionid", username);
-                        return "Du er logget ind som " + username;
+                        return username;
 
                 } catch (JDOMException | IOException e) {
                     System.out.println("Problem med login: " + e);
@@ -72,7 +72,7 @@ public class ShopJAXRS {
         if(ubean.md5crypt(username).equals(ubean.md5crypt(admin[0])) && ubean.md5crypt(password).equals(ubean.md5crypt(admin[1]))) {
             session.setAttribute("usertype", "admin");
             session.setAttribute("sessionid", username);
-            return "Du er logget ind som " + username + " (" + session.getAttribute("usertype") + ")";
+            return username;
         }
 
         return "FAIL";
