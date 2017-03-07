@@ -43,6 +43,12 @@ public class ShopJAXRS {
         new Controller().adjustItemStock(itemid, stock);
     }
 
+    @POST
+    @Path("createCustomer")
+    public String createCustomer(@FormParam("username") String username, @FormParam("password") String password) {
+        return new UserBean().createCustomerClean(username, password);
+    }
+
 
     @POST
     @Path("login")
@@ -52,14 +58,12 @@ public class ShopJAXRS {
         for (Customer c : service.listCustomers(354))
             if(c.getCustomerName().equals(username)) {
                 try {
-                    Document doc = new SAXBuilder().build(new StringReader(service.login(username, password)).toString());
-                    if (!Objects.equals(doc.getRootElement().getDescendants(new ElementFilter("customerName")).next().getValue(), "")) {
+                    Document doc = new SAXBuilder().build(new StringReader(service.login(username, password)));
+                    username = doc.getRootElement().getDescendants(new ElementFilter("customerName")).next().getValue();
                         session.setAttribute("usertype", "user");
                         session.setAttribute("sessionid", username);
                         return "Du er logget ind som " + username;
-                    }
-                    else
-                        return "Forkert kode :(";
+
                 } catch (JDOMException | IOException e) {
                     System.out.println("Problem med login: " + e);
                 }
