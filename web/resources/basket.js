@@ -11,13 +11,11 @@ function purchase(itemid) {
     });
 }
 
-
 function getTotal() {
     sendRequest('GET', 'rest/shop/getTotal', null, function(data) {
         document.getElementById("total").innerHTML = "Total <b>" + data + "</b> kr";
     });
 }
-
 
 function done() {
     sendRequest('POST', 'rest/shop/done', null, null);
@@ -26,13 +24,18 @@ function done() {
 }
 
 
-function loadOnReady() {
+function updateBasket() {
     sendRequest('GET', 'rest/shop/checkBasket', null, function (data) {
-        if(data == null || data == "fail")
-            document.getElementById("produkter").innerHTML = "asdds";
+        if(data == null || data == "NOSESSION") {
+            document.getElementById("produkter").innerHTML = "No session";
+        }
         else {
             document.getElementById("produkter").innerHTML = data;
             getTotal();
         }
     });
+}
+
+function addStock(itemid, stock) {
+    sendRequest('POST', 'rest/shop/addStock', 'itemid=' + itemid + '&stock=' + stock, null);
 }
