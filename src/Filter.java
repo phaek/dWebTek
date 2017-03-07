@@ -2,6 +2,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Filter implements javax.servlet.Filter {
@@ -13,6 +14,9 @@ public class Filter implements javax.servlet.Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+        if (!Objects.equals(request.getCharacterEncoding(), "UTF-8"))
+            request.setCharacterEncoding("UTF-8");
 
         try {
             if (Boolean.TRUE.equals(((HttpServletRequest) request).getSession().getAttribute("isoauth")) && (((HttpServletRequest) request).getSession().getAttribute("username").equals("au554760") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au554107") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au553122") || ((HttpServletRequest) request).getSession().getAttribute("username").equals("au523910")))
