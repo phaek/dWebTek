@@ -2,15 +2,18 @@ function login() {
     console.log("Login er triggered");
     if ((document.getElementById("usernamefield").value != null) && (document.getElementById("passwordfield").value != null)) {
         sendRequest("POST", "rest/shop/login?username=" + document.getElementById("usernamefield").value + "&password=" + document.getElementById("passwordfield").value, null, function (data) {
+            if (data != "FAIL") {
+                updateBasket();
+                alert(data);
 
-            updateBasket();
-
-            document.getElementById("login").style.display="none";
-            document.getElementById("usernamefield").style.display="none";
-            document.getElementById("passwordfield").style.display="none";
-
-            document.getElementById("logout").style.display="block";
-            window.alert(data);
+                document.getElementById("login").style.display = "none";
+                document.getElementById("usernamefield").style.display = "none";
+                document.getElementById("passwordfield").style.display = "none";
+                document.getElementById("createUser").style.display = "none";
+                document.getElementById("logout").style.display = "block";
+                document.getElementById('myModal').style.display = "none";
+            } else
+                window.alert("Forkert login. Prøv igen eller opret ny bruger...");
         });
     }
     else
@@ -29,6 +32,21 @@ function logout() {
     document.getElementById("login").style.display="block";
     document.getElementById("usernamefield").style.display="block";
     document.getElementById("passwordfield").style.display="block";
+    document.getElementById("createUser").style.display="block";
 
     document.getElementById("logout").style.display="none";
+}
+
+
+function createCustomer() {
+    if ((document.getElementById("usernamefield").value != null) && (document.getElementById("passwordfield").value != null)) {
+        sendRequest("POST", "rest/shop/createCustomer", 'username=' + document.getElementById("usernamefield").value + '&password=' + document.getElementById("passwordfield").value, function (data) {
+            if (data != "fail") {
+                alert("Ny kunde oprettet. Logger dig automatisk ind...");
+                login();
+            }
+            else
+                alert("Der opstod en fejl under oprettelse af ny bruger..");
+        });
+    }
 }
