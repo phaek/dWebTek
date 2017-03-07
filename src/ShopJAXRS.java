@@ -1,10 +1,17 @@
 import com.google.gson.Gson;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.filter.ElementFilter;
+import org.jdom2.input.SAXBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -41,20 +48,30 @@ public class ShopJAXRS {
     @Path("login")
     public String login(@FormParam("username") String username, @FormParam("password") String password) {
         UserBean ubean = new UserBean();
-        session.setAttribute("sessionid", username);
-
 
         for (Customer c : service.listCustomers(354))
-            if(c.getCustomerName().equals(username))
-                session.setAttribute("usertype", "user");
+            if(c.getCustomerName().equals(username)) {
+                try {
+                    Document doc = new SAXBuilder().build(new StringReader(service.login(username, password)).toString());
+                    if (!Objects.equals(doc.getRootElement().getDescendants(new ElementFilter("customerName")).next().getValue(), "")) {
+                        session.setAttribute("usertype", "user");
+                        session.setAttribute("sessionid", username);
+                        return "Du er logget ind som " + username;
+                    }
+                    else
+                        return "Forkert kode :(";
+                } catch (JDOMException | IOException e) {
+                    System.out.println("Problem med login: " + e);
+                }
+            }
 
-        if(ubean.md5crypt(username).equals(ubean.md5crypt(admin[0])) && ubean.md5crypt(password).equals(ubean.md5crypt(admin[1])))
+        if(ubean.md5crypt(username).equals(ubean.md5crypt(admin[0])) && ubean.md5crypt(password).equals(ubean.md5crypt(admin[1]))) {
             session.setAttribute("usertype", "admin");
-        else {
-            return "Velkommen " + username + ", du er oprettet som ny bruger med id " + ubean.createCustomerClean(username, password) + " :)";
+            session.setAttribute("sessionid", username);
+            return "Du er logget ind som " + username + " (" + session.getAttribute("usertype") + ")";
         }
 
-        return "Brugernavn: " + session.getAttribute("sessionid") + " (" + session.getAttribute("usertype") +")";
+        return "FAIL";
     }
 
     @POST
@@ -83,7 +100,6 @@ public class ShopJAXRS {
 
         session.setAttribute("cachedProdList", null);
         session.setAttribute("basket", null);
-        System.out.println("Køb gennemført; kurv nulstillet");
     }
 
 
