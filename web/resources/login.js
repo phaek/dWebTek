@@ -4,7 +4,7 @@ function login() {
         sendRequest("POST", "rest/shop/login?username=" + document.getElementById("usernamefield").value + "&password=" + document.getElementById("passwordfield").value, null, function (data) {
             if (data != "FAIL") {
                 updateBasket();
-                alert(data);
+                document.getElementById('userbtn').innerHTML = data;
 
                 document.getElementById("login").style.display = "none";
                 document.getElementById("usernamefield").style.display = "none";
