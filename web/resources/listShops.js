@@ -1,3 +1,6 @@
+/**
+ * Loads the entire list of shops and populates <select> list in index.xhtml
+ */
 function loadshops() {
     sendRequest("GET", "rest/shop/listShops", null, function (data) {
         html = "";
@@ -9,11 +12,5 @@ function loadshops() {
 
         //Super-fancy styling med CSS. Pewpew!
         document.getElementById("shopselec").setAttribute('align', 'center');
-    });
-}
-
-function selectedShop() {
-    sendRequest("GET", "rest/shop/listShopItems/" + document.getElementById("shops").value, null, function(data) {
-        document.getElementById("produktDiv").innerHTML = JSON.stringify(JSON.parse(data));
     });
 }
