@@ -55,6 +55,11 @@ class CloudService {
     }
 
 
+    /**
+     * Returns a list of customers from the webtek cloud
+     * @param shopid Not needed
+     * @return ArrayList
+     */
     public ArrayList<Customer> listCustomers(int shopid) {
         String reqURL = "http://webtek.cs.au.dk/cloud/listCustomers?shopID=" + shopid;
         Document doc = null;
@@ -78,6 +83,10 @@ class CloudService {
         return customerList;
     }
 
+    /**
+     * Returns a list of webshops from the webtek cloud
+     * @return ArrayList
+     */
     public ArrayList<Shop> listShops() {
         shopList.clear();
         Document doc = null;
@@ -96,6 +105,12 @@ class CloudService {
     }
 
 
+    /**
+     * Attempts to login in to the webtek cloud via a pre-validated XML document
+     * @param username Username
+     * @param password Password
+     * @return Parsed XML → username
+     */
     public String login(String username, String password) {
 
         String result = "";
