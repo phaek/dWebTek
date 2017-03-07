@@ -151,8 +151,8 @@ a:hover {
 }
 
 #passwordfield, #usernamefield {
-    width: 20%;
-    margin-left: 37.5%;
+    width: 30%;
+    margin-left: 33%;
 
     border: 2px solid #dadada;
     font-family: "Segoe MDL2 Assets", 'Segoe UI', Sans-Serif, serif;
@@ -187,9 +187,7 @@ a:hover {
     padding:6px 26px;
     text-decoration:none;
     text-shadow:0 1px 0 #ffffff;
-    margin-left: 0;
-    margin-right: 100px;
-    margin-top: 4px;
+    bottom: 50px;
 }
 
 #login:hover, #createUser:hover {
@@ -204,10 +202,9 @@ a:hover {
     position: absolute;
     left: 50px;
 }
-
 #createUser {
     position: absolute;
-    right: -50px;
+    right: 50px;
 }
 
 
@@ -264,12 +261,12 @@ a:hover {
     background-color: #fefefe;
     position: relative;
     margin: auto;
-    height: 30%;
+    margin-top: 5%;
+    height: 300px;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
+    width: 500px;
 }
-
 .close {
     color: #aaaaaa;
     float: right;
@@ -281,6 +278,12 @@ a:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal-content h3{
+    margin-top: 15%;
+    margin-bottom: 3%;
+    text-align: center;
 }
 
 #menuelements {
