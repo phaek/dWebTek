@@ -22,13 +22,21 @@ function handleProducts() {
                         "<div id='itemid' style='display: none'>" + prodList[prodKey]["itemID"] + "" +
                         "</div>" +
                     "</a>" + //Produkbilleder fra hver URL
-                    "<button id='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")'>Køb</button>" +
+                    "<button class='purchaseBtn' onclick='purchase("+ prodList[prodKey]["itemID"] +")'>Køb</button>" +
 
                 "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
+        showBtn();
     });
 }
 
+function showBtn() {
+    if (document.getElementById("shops").value == 354) {
+        var btns = document.getElementsByClassName("purchaseBtn");
+        for (var i = 0; i < btns.length; i++)
+            btns[i].style.display="inline-block";
+    }
+}
 
 /**
  * Handles any 'Enter' keypresses if Searchfield is focused
@@ -40,7 +48,13 @@ $(document).keypress(function (e) {
 });
 
 
-
+/**
+ * Søgefunktion til webshoppen.
+ *
+ * Kan udvides til at søge i alle webshops på én gang ved at kalde sendRequest og tilføje produkterne til products[], dette
+ * kan dog ikke anbefales da GET er relativ langsom pga internetforbindelser
+ * @param searchWord
+ */
 function searchBarSearch(searchWord) {
     var q = searchWord.toLowerCase();
     map = [];
@@ -64,7 +78,7 @@ function searchBarSearch(searchWord) {
             "<div id='itemid' style='display: none'>" + map[i2]["itemID"] + "" +
             "</div>" +
             "</a>" + //Produkbilleder fra hver URL
-            "<button id='purchaseBtn' onclick='purchase("+ map[i2]["itemID"] +")'>Køb</button>" +
+            "<button class='purchaseBtn' onclick='purchase("+ map[i2]["itemID"] +")'>Køb</button>" +
 
             "</div>"//Afslut produktdiv
         document.getElementById("produktDiv").innerHTML = prodhtml;
