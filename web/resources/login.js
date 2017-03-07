@@ -35,6 +35,7 @@ function logout() {
     document.getElementById("createUser").style.display="block";
 
     document.getElementById("logout").style.display="none";
+    document.getElementById('userbtn').innerHTML="Login &#xE13D;";
 }
 
 
