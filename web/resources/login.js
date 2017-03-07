@@ -5,11 +5,14 @@ function login() {
             window.alert(data);
         });
 
+
         document.getElementById("login").style.display="none";
         document.getElementById("usernamefield").style.display="none";
         document.getElementById("passwordfield").style.display="none";
 
         document.getElementById("logout").style.display="block";
+
+
     }
     else
         window.alert("Udfyld begge felter for at logge ind...");
