@@ -1,7 +1,11 @@
+var products = [];
+var map;
+
 function handleProducts() {
     sendRequest('GET', 'rest/shop/listShopItems/' + document.getElementById("shops").value, null, function(prodData) {
         var prodhtml = "";
         var prodList = JSON.parse(prodData);
+        products = JSON.parse(prodData);
 
 
         for (var prodKey in prodList)
@@ -25,59 +29,49 @@ function handleProducts() {
     });
 }
 
+
 /**
  * Handles any 'Enter' keypresses if Searchfield is focused
  */
 $(document).keypress(function (e) {
-    if (e.which == 13 && $(document.getElementById('searchfield')).is(':focus')) {
-        alert("Søgefunktionen er under genopbygning fra jQuery/JSF → JS/JAX-RS");
+    if (e.which == 13 && $(document.getElementById('searchfield')).is(':focus') && (document.getElementById('searchfield').length !== 0)) {
+        searchBarSearch(document.getElementById('searchfield').value);
     }
 });
 
 
-function addStock(itemid, stock) {
-    sendRequest('POST', 'rest/shop/addStock', 'itemid=' + itemid + '&stock=' + stock, null);
+
+function searchBarSearch(searchWord) {
+    var q = searchWord.toLowerCase();
+    map = [];
+    var prodhtml = "";
+
+    for (var i in products)
+        if (products[i]["itemName"].length > 5 && (products[i]["itemName"].toLowerCase().includes(q)))
+            map.push(products[i]);
+
+    for (var i2 in map) {
+        prodhtml +=
+            "<div style='height: auto; width: 300px; background-color: white; display: inline-flex; margin-right: 10px; position: relative'>" + //Start produktdiv og tilføj style
+
+            "<a href='" + map[i2]["itemURL"] +"' style='background-color:white'>" +
+            "<p class='prodNavn'>" +
+            "<img src='" + map[i2]["itemURL"] + "' style='height:280px; width: 300px; display: block; margin: 0 auto;' alt=''/>" +
+            JSON.stringify(map[i2]["itemName"]).substring(1, map[i2]["itemName"].length+1) +
+            "</p>" +
+            "<p class='prodPris'>" + map[i2]["itemPrice"] + " kr" +
+            "</p>" +
+            "<div id='itemid' style='display: none'>" + map[i2]["itemID"] + "" +
+            "</div>" +
+            "</a>" + //Produkbilleder fra hver URL
+            "<button id='purchaseBtn' onclick='purchase("+ map[i2]["itemID"] +")'>Køb</button>" +
+
+            "</div>"//Afslut produktdiv
+        document.getElementById("produktDiv").innerHTML = prodhtml;
+    }
+
+    document.getElementById('jumbotron_p').innerText = "Map.size: " + map.length + ", products.length: " + products.length;
 }
-
-/*
-
-/**
- * Populates a <div> from Search input
- */    /*
-function searchBarSearch() {
-    products = [];
-    if ((document).getElementById('searchfield').length !== 0) {
-
-        for (var i2 = 0; i2++ < map.size; map.next()) {
-            if (map.value().toString().toLowerCase().includes((document).getElementById('searchfield').value.toLowerCase())) {
-                products.push(map.hash(map.key()).substring(7));
-            }
-        }
-        $('#produktTabel').empty();
-        loadProducts(products);
-        if (products.length !== allProducts.length)
-            document.getElementById('jumbotron_p').innerText = "Antal produkter af denne søgning: " + products.length;
-        else
-            document.getElementById('jumbotron_p').innerText = "";
-    }
-}
-
-/**
- * Reads an XML list of products and populates the webshop with said products
- */   /*
-function onLoad() {
-    for (var i = 0; i < (xmlDoc.getElementsByTagName('items')[0].childNodes.length)-(xmlDoc.getElementsByTagName('items')[0].childNodes.length/1.75); i++) {
-        map.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue);
-        map2.put(xmlDoc.getElementsByTagName("itemID")[i].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("itemName")[i].childNodes[0].nodeValue);
-    }
-    for (var i2 = 0; i2++ < map.size; map.next()) {
-        products.push(map.hash(map.key()).substring(7));
-        allProducts.push(map2.hash(map2.key()).substring(7));
-    }
-
-    loadProducts(products);
-}*/
-
 
 
 
