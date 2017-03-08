@@ -20,18 +20,26 @@
     <title>Kameraudstyr</title>
 </h:head>
 <body>
-
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h3 style="text-align: center">Log ind på Kameraudstyr</h3>
-        <input type="text" id="usernamefield" placeholder="Brugernavn.." />
-        <input type="password" id="passwordfield" placeholder="Kodeord.." />
+        <input type="text" id="usernamefield" placeholder="Brugernavn.." align="middle"/>
+        <input type="password" id="passwordfield" placeholder="Kodeord.." align="middle"/>
         <button id="login" onclick="login()">Log ind</button>
         <button id="createUser" onclick="createCustomer()">Create</button>
     </div>
 </div>
 
+<div id="myCart" class="cart">
+    <div class="cart-content">
+        <span class="close">&times;</span>
+        <h3 style="text-align: center">Indkøbskurv</h3>
+            <div id="produkter">Indkøbskurv kræver login</div>
+            <button id="buyShit" onclick="done()">Kassen</button>
+            <div id="total">Total <strong>0</strong> kr</div>
+    </div>
+</div>
 <div id="header">
     <div class="headerelement" id="logo">
         <a href="">
@@ -43,6 +51,7 @@
     </div>
 
     <div class="headerelement" id="user">
+        <button id='cartBtn'>0</button>
         <button id='userbtn'>Login &#xE13D;</button>
         <div class="dropdown-content">
             <a id="logout" onclick="logout()" style="display: none">logout</a>
@@ -73,14 +82,6 @@
     <select name="shops" id="shops"  title="shoplist" onchange="handleProducts()" />
 </div>
 
-<div id="shopBasket">
-    <div id="basket">
-        <div id="overskrift">Indkøbskurv</div>
-        <div id="produkter">Indkøbskurv kræver login</div>
-        <button id="buyShit" onclick="done()">Kassen</button>
-        <div id="total">Total <strong>0</strong> kr</div>
-    </div>
-</div>
 <div id="jumbotron">
     <div id="jumbotronelements">
         <div id="jumbotronDiv">
@@ -101,17 +102,26 @@
     window.onload=loadshops();
 
     var modal = document.getElementById('myModal');
+    var cartModal = document.getElementById('myCart');
     var btn = document.getElementById('userbtn');
+    var cartBtn = document.getElementById('cartBtn');
     var span = document.getElementsByClassName("close")[0];
+
     btn.onclick = function() {
         modal.style.display = "block";
     };
+    cartBtn.onclick = function() {
+        cartModal.style.display = "block";
+        getTotal();
+    };
     span.onclick = function() {
         modal.style.display = "none";
+        cartModal.style.display = "none";
     };
     window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target == modal || event.target == cartModal) {
             modal.style.display = "none";
+            cartModal.style.display = "none";
         }
     }
 </script>
