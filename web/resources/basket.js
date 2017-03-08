@@ -4,18 +4,10 @@
  */
 function purchase(itemid) {
     sendRequest('POST', 'rest/shop/addtobasket', 'id=' + itemid, function (asd) {
-        if(asd == null || asd.includes('udsolgt'))
+        if (asd == null || asd.includes('udsolgt'))
             alert(asd);
-        else {
-            sendRequest('GET', 'rest/shop/checkBasket', null, function (data) {
-                if (data == null || data == "SOLDOUT")
-                    alert("Denne vare er udsolgt :(");
-                else {
-                    document.getElementById("produkter").innerHTML = data;
-                    getTotal();
-                }
-            });
-        }
+        else
+            updateBasket();
     });
 }
 
@@ -27,6 +19,16 @@ function getTotal() {
         document.getElementById("total").innerHTML = "Total <b>" + data + "</b> kr";
     });
 }
+
+/**
+ * Gets the basket size and sets the little cart ticker accordingly
+ */
+function getBasketSize() {
+    sendRequest('GET', 'rest/shop/basketSize', null, function(data) {
+        document.getElementById('cartBtn').innerText = data;
+    });
+}
+
 
 /**
  * Handles the checkout and resets basket if successful
@@ -48,6 +50,7 @@ function updateBasket() {
         else {
             document.getElementById("produkter").innerHTML = data;
             getTotal();
+            getBasketSize();
         }
     });
 }
