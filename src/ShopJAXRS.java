@@ -86,6 +86,19 @@ public class ShopJAXRS {
         return "Du er nu logget ud";
     }
 
+    @GET
+    @Path("basketSize")
+    @SuppressWarnings("unchecked")
+    public int basketSize() {
+        int retVal = 0;
+
+        if((session.getAttribute("basket")) != null)
+            for (Map.Entry<String, Integer> entry : ((HashMap<String, Integer>) session.getAttribute("basket")).entrySet())
+                retVal += entry.getValue();
+
+        return retVal;
+    }
+
 
     @POST
     @Path("done")
